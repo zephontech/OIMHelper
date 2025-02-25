@@ -9,11 +9,11 @@ import Thor.API.Exceptions.tcInvalidAttributeException;
 import Thor.API.Exceptions.tcInvalidLookupException;
 import Thor.API.Exceptions.tcInvalidValueException;
 import Thor.API.Operations.*;
+import com.thortech.util.logging.Logger;
 import com.thortech.xl.dataaccess.*;
 import java.util.*;
 import oracle.iam.platform.OIMClient;
 import oracle.iam.platform.Platform;
-import org.apache.log4j.Logger;
 
 /**
  * This is provides common functions for lookups.

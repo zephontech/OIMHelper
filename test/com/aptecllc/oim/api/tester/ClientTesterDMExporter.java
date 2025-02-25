@@ -8,6 +8,7 @@ import Thor.API.Operations.tcExportOperationsIntf;
 import com.aptecllc.oim.api.OIMDeploymentManager;
 import com.aptecllc.oim.api.OIMHelperClient;
 import com.aptecllc.oim.exceptions.OIMHelperException;
+import com.thortech.util.logging.Logger;
 import com.thortech.xl.vo.ddm.RootObject;
 import java.io.File;
 import java.util.ArrayList;
@@ -15,7 +16,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
-import org.apache.log4j.Logger;
 import org.junit.Test;
 
 /**

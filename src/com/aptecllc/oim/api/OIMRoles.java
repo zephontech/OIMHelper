@@ -6,6 +6,7 @@
 package com.aptecllc.oim.api;
 
 import com.aptecllc.oim.exceptions.OIMHelperException;
+import com.thortech.util.logging.Logger;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -31,9 +32,7 @@ import oracle.iam.identity.rolemgmt.api.RoleManagerConstants.RoleAttributeName;
 import oracle.iam.identity.rolemgmt.vo.RoleManagerResult;
 import oracle.iam.platform.Platform;
 import oracle.iam.platform.authopss.vo.AdminRole;
-import oracle.iam.platform.authopss.vo.AdminRoleMembership;
 import oracle.iam.platformservice.api.AdminRoleService;
-import org.apache.log4j.Logger;
 
 /**
  *
@@ -289,7 +288,7 @@ public class OIMRoles extends BaseHelper {
                 return;
             if (!resMap.isEmpty())
             {
-                logger.error(res.getFailedResults());
+                logger.error("ERROR:" + res.getFailedResults());
                 throw new OIMHelperException("Failed to revoke role(s) to user " + usrKey);
             }
         }
@@ -329,7 +328,7 @@ public class OIMRoles extends BaseHelper {
                 return;
             if (!resMap.isEmpty())
             {
-                logger.error(res.getFailedResults());
+                logger.error("ERROR:" + res.getFailedResults());
                 throw new OIMHelperException("Failed to grant role(s) to user " + usrKey);
             }
         }
@@ -371,7 +370,7 @@ public class OIMRoles extends BaseHelper {
                 return;
             if (!resMap.isEmpty())
             {
-                logger.error(res.getFailedResults());
+                logger.error("ERROR:" + res.getFailedResults());
                 throw new OIMHelperException("Failed to create role " + role.getName());
             }
         }
@@ -415,7 +414,7 @@ public class OIMRoles extends BaseHelper {
                 return;
             if (!resMap.isEmpty())
             {
-                logger.error(res.getFailedResults());
+                logger.error("ERROR:" + res.getFailedResults());
                 throw new OIMHelperException("Failed to update role " + role.getName());
             }
         }
@@ -459,7 +458,7 @@ public class OIMRoles extends BaseHelper {
                 return;
             if (!resMap.isEmpty())
             {
-                logger.error(res.getFailedResults());
+                logger.error("ERROR:" + res.getFailedResults());
                 throw new OIMHelperException("Failed to update role " + role.getName());
             }
         }
@@ -513,7 +512,7 @@ public class OIMRoles extends BaseHelper {
                 return;
             if (!resMap.isEmpty())
             {
-                logger.error(res.getFailedResults());
+                logger.error("ERROR:" + res.getFailedResults());
                 throw new OIMHelperException("Failed to delete role " + role.getName());
             }
         }

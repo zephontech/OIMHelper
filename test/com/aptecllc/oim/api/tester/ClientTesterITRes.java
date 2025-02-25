@@ -11,8 +11,8 @@ import com.aptecllc.oim.api.OIMHelperClient;
 import com.aptecllc.oim.api.OIMITResources;
 import java.util.List;
 import java.util.Map;
-import org.apache.log4j.Logger;
 import com.aptecllc.oim.api.OIMProperties;
+import com.thortech.util.logging.Logger;
 import org.junit.Test;
 
 /**
@@ -21,6 +21,7 @@ import org.junit.Test;
 public class ClientTesterITRes extends OIMHelperClient {
 
     private Logger logger = Logger.getLogger(this.getClass().getName());
+    
 
     private static OIMITResources itres;
     private static OIMProperties oimProps;

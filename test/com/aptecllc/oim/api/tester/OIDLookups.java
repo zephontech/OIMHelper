@@ -5,11 +5,11 @@
 package com.aptecllc.oim.api.tester;
 
 import java.util.Map;
-import org.apache.log4j.Logger;
 import org.junit.Test;
 import com.aptecllc.oim.api.OIMHelperClient;
 import com.aptecllc.oim.api.OIMlookupUtilities;
 import com.aptecllc.oim.exceptions.OIMHelperException;
+import com.thortech.util.logging.Logger;
 
 /**
  *

@@ -12,6 +12,7 @@ import com.aptecllc.oim.api.OIMProvisioningOperations;
 import com.aptecllc.oim.api.OIMUsers;
 import com.aptecllc.oim.exceptions.OIMHelperException;
 import com.aptecllc.oim.model.OpenTask;
+import com.thortech.util.logging.Logger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -19,7 +20,6 @@ import oracle.iam.platform.entitymgr.vo.SearchCriteria;
 import oracle.iam.provisioning.api.ProvisioningConstants;
 import oracle.iam.provisioning.api.ProvisioningService;
 import oracle.iam.provisioning.vo.Account;
-import org.apache.log4j.Logger;
 import org.junit.Test;
 
 /**
@@ -28,8 +28,7 @@ import org.junit.Test;
  */
 public class ClientTestProvOps extends OIMHelperClient {
     
-     private Logger logger = Logger.getLogger(this.getClass().getName());
-    
+    private Logger logger = Logger.getLogger(this.getClass().getName());
      private tcProvisioningOperationsIntf provOps;
      private OIMProcessTaskOperations taskOps;
      private OIMProvisioningOperations oimProvOps;
@@ -93,7 +92,7 @@ public class ClientTestProvOps extends OIMHelperClient {
             logger.debug("Tasks:" + tasks.size());
             for(OpenTask ot : tasks)
             {
-                logger.debug(ot);
+                logger.debug("Opentask:" + ot);
             }
             
         }
@@ -112,7 +111,7 @@ public class ClientTestProvOps extends OIMHelperClient {
             tasks = taskOps.getAllOpenTasks(null);
             for(OpenTask ot : tasks)
             {
-                logger.debug(ot);
+                logger.debug("Opentask:" + ot);
             }
             
         }
@@ -131,7 +130,7 @@ public class ClientTestProvOps extends OIMHelperClient {
             tasks = taskOps.getAllOpenTasks(null);
             for(OpenTask ot : tasks)
             {
-                logger.debug(ot);
+                logger.debug("Opentask:" + ot);
             }
             
         }
@@ -154,7 +153,7 @@ public class ClientTestProvOps extends OIMHelperClient {
                 close[c] = t.getTaskKey();
                 c++;
             }
-            logger.debug(close.length);
+            logger.debug("NumClose:" + close.length);
             if (close.length > 0)
                 provOps.setTasksCompletedManually(close);
            

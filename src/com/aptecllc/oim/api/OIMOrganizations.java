@@ -6,6 +6,7 @@
 package com.aptecllc.oim.api;
 
 import com.aptecllc.oim.exceptions.OIMHelperException;
+import com.thortech.util.logging.Logger;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -18,7 +19,6 @@ import oracle.iam.platform.OIMClient;
 import oracle.iam.platform.Platform;
 import oracle.iam.platform.authz.exception.AccessDeniedException;
 import oracle.iam.platform.entitymgr.vo.SearchCriteria;
-import org.apache.log4j.Logger;
 
 /**
  *

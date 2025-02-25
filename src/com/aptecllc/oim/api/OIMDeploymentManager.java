@@ -6,6 +6,7 @@ package com.aptecllc.oim.api;
 
 import Thor.API.Operations.tcExportOperationsIntf;
 import com.aptecllc.oim.exceptions.OIMHelperException;
+import com.thortech.util.logging.Logger;
 import com.thortech.xl.vo.ddm.RootObject;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -21,7 +22,6 @@ import java.util.List;
 import java.util.Set;
 import oracle.iam.platform.OIMClient;
 import oracle.iam.platform.Platform;
-import org.apache.log4j.Logger;
 
 /**
  *

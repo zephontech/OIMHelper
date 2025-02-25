@@ -7,8 +7,8 @@ package com.aptecllc.oim.api.tester;
 
 import com.aptecllc.oim.exceptions.OIMHelperException;
 import com.aptecllc.oim.api.OIMHelperClient;
+import com.thortech.util.logging.Logger;
 import oracle.iam.reconciliation.api.ReconOperationsService;
-import org.apache.log4j.Logger;
 import org.junit.Test;
 
 /**
@@ -50,7 +50,7 @@ public class ClientTesterConnection extends OIMHelperClient {
 
         while(current != null)
         {
-            logger.info(current.getClass());
+            logger.info("Classname:" + current.getClass());
             current = current.getParent();
         }
     }

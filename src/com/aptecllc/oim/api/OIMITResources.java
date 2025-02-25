@@ -10,11 +10,11 @@ import Thor.API.Exceptions.tcITResourceDefinitionNotFoundException;
 import Thor.API.Exceptions.tcITResourceNotFoundException;
 import Thor.API.Exceptions.tcInvalidAttributeException;
 import Thor.API.Operations.*;
+import com.thortech.util.logging.Logger;
 //import com.thortech.util.logging.*;
 import java.util.*;
 import oracle.iam.platform.OIMClient;
 import oracle.iam.platform.Platform;
-import org.apache.log4j.Logger;
 
 public class OIMITResources extends BaseHelper {
 

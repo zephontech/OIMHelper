@@ -7,14 +7,13 @@ package com.aptecllc.oim.api.tester;
 
 import Thor.API.Operations.tcFormDefinitionOperationsIntf;
 import Thor.API.Operations.tcFormInstanceOperationsIntf;
-import Thor.API.tcResultSet;
 import com.aptecllc.oim.api.OIMForms;
 import com.aptecllc.oim.exceptions.OIMHelperException;
 import com.aptecllc.oim.api.OIMHelperClient;
+import com.thortech.util.logging.Logger;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-import org.apache.log4j.Logger;
 import org.junit.Test;
 
 
@@ -25,7 +24,7 @@ public class ClientTesterForms extends OIMHelperClient {
 
     private static tcFormDefinitionOperationsIntf formDefOps;
     private static tcFormInstanceOperationsIntf formInstanceOps;
-    private Logger logger = Logger.getLogger(ClientTesterForms.class.getName());
+    private Logger logger = Logger.getLogger(this.getClass().getName());
 
     @Test
     public void mainTest() {

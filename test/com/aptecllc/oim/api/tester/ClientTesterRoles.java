@@ -10,6 +10,7 @@ import com.aptecllc.oim.api.OIMHelperClient;
 import com.aptecllc.oim.api.OIMOrganizations;
 import com.aptecllc.oim.api.OIMRoles;
 import com.aptecllc.oim.api.OIMUsers;
+import com.thortech.util.logging.Logger;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -22,7 +23,6 @@ import oracle.iam.platform.authopss.vo.AdminRole;
 import oracle.iam.platform.authopss.vo.AdminRoleMembership;
 import oracle.iam.platform.entitymgr.vo.SearchCriteria;
 import oracle.iam.platformservice.api.AdminRoleService;
-import org.apache.log4j.Logger;
 import org.junit.Test;
 
 /**
@@ -85,7 +85,7 @@ public class ClientTesterRoles extends OIMHelperClient {
                 }
                 else
                 {
-                    logger.debug(o);
+                    logger.debug("Unknown:" + o);
                 }
             }
             
@@ -141,12 +141,12 @@ public class ClientTesterRoles extends OIMHelperClient {
         {
             logger.debug("getting User");
             User u = oimUsers.getUser(user);
-            logger.debug(u);
+            logger.debug("User:" + u);
             logger.debug("getting User Roles");
             List<Object> uRoles = oimUsers.getAllUsersRoles(u.getId(),true);
             for(Object oimRole : uRoles)
             {
-                logger.debug(oimRole);
+                logger.debug("Role:" + oimRole);
                 
             }
 
@@ -154,7 +154,7 @@ public class ClientTesterRoles extends OIMHelperClient {
             List<AdminRoleMembership> mss = oimUsers.getAdminRoleMemberships(new Long(u.getId()));
             for(AdminRoleMembership am : mss)
             {
-                logger.debug(am);
+                logger.debug("AMMember:" + am);
             }
             
         }
@@ -245,7 +245,7 @@ public class ClientTesterRoles extends OIMHelperClient {
                         String name = ar.getRoleName();
                         for(AdminRoleMembership am : mss)
                         {
-                            logger.debug(am);
+                            logger.debug("AMMember:" + am);
                             if (am.getAdminRoleName().equalsIgnoreCase(name))
                             {
                                 logger.debug("Removing:" + roleName + ":" + am.getScopeId());
@@ -312,7 +312,7 @@ public class ClientTesterRoles extends OIMHelperClient {
 
             for(Role oimRole : allRoles)
             {
-                logger.debug(oimRole);
+                logger.debug("Role:" + oimRole);
             }
             
         }
@@ -329,7 +329,7 @@ public class ClientTesterRoles extends OIMHelperClient {
 
             for(Organization oimOrg : allOrgs)
             {
-                logger.debug(oimOrg);
+                logger.debug("ORG:" + oimOrg);
             }
             
         }
@@ -344,12 +344,12 @@ public class ClientTesterRoles extends OIMHelperClient {
         {
             logger.debug("getting User");
             User u = oimUsers.getUser("FFORESTER");
-            logger.debug(u);
+            logger.debug("User:" + u);
             logger.debug("getting User Roles");
             List<Role> uRoles = oimUsers.getAllUsersRoles(u.getId());
             for(Role oimRole : uRoles)
             {
-                logger.debug(oimRole);
+                logger.debug("Role:" + oimRole);
                 if (oimRole.getName().equalsIgnoreCase("operators"))
                     hasOperator = true;
             }
@@ -363,7 +363,7 @@ public class ClientTesterRoles extends OIMHelperClient {
             uRoles = oimUsers.getAllUsersRoles(u.getId());
             for(Role oimRole : uRoles)
             {
-                logger.debug(oimRole);
+                logger.debug("Role:" + oimRole);
                 if (oimRole.getName().equalsIgnoreCase("operators"))
                     hasOperator = false;
             }

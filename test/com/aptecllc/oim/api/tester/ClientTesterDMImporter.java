@@ -8,6 +8,7 @@ package com.aptecllc.oim.api.tester;
 import Thor.API.Operations.tcImportOperationsIntf;
 import com.aptecllc.oim.api.OIMHelperClient;
 import com.aptecllc.oim.exceptions.OIMHelperException;
+import com.thortech.util.logging.Logger;
 import com.thortech.xl.vo.ddm.ImportPlanInfo;
 import com.thortech.xl.vo.ddm.RootObject;
 import java.io.BufferedReader;
@@ -19,7 +20,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
-import org.apache.log4j.Logger;
 import org.junit.Test;
 
 /**

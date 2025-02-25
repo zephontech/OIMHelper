@@ -13,6 +13,7 @@ import Thor.API.Operations.tcITResourceInstanceOperationsIntf;
 import Thor.API.Operations.tcLookupOperationsIntf;
 import Thor.API.tcResultSet;
 import com.aptecllc.oim.oimutils.StringUtils;
+import com.thortech.util.logging.Logger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -30,7 +31,6 @@ import oracle.iam.scheduler.api.SchedulerService;
 import oracle.iam.scheduler.exception.SchedulerException;
 import oracle.iam.scheduler.vo.JobDetails;
 import oracle.iam.scheduler.vo.JobParameter;
-import org.apache.log4j.Logger;
 
 /**
  *

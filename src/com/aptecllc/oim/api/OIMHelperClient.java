@@ -8,6 +8,7 @@ package com.aptecllc.oim.api;
 import com.aptecllc.oim.exceptions.OIMHelperException;
 import Thor.API.Security.XLClientSecurityAssociation;
 import com.aptecllc.oim.oimutils.WebConfigLoader;
+import com.thortech.util.logging.Logger;
 import com.thortech.xl.client.dataobj.tcDataBaseClient;
 import com.thortech.xl.dataaccess.tcDataProvider;
 import com.thortech.xl.dataaccess.tcDataSet;
@@ -16,7 +17,6 @@ import java.util.Hashtable;
 import java.util.Properties;
 import javax.security.auth.login.LoginException;
 import oracle.iam.platform.OIMClient;
-import org.apache.log4j.Logger;
 
 /**
  * Used as a helper for making remote OIM Connections
@@ -134,7 +134,8 @@ public class OIMHelperClient {
         }
 
         Properties props = configLoader.getConfigProps();
-        logger.debug(props);
+        logger.debug("Props:" + props);
+       
         setOIMInitialContextFactory(props.getProperty("java.naming.factory.initial"));
         setOIMPassword(props.getProperty("java.naming.security.credentials"));
         setOIMURL(props.getProperty("java.naming.provider.url"));

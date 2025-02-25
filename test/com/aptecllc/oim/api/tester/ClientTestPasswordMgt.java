@@ -6,14 +6,13 @@
 package com.aptecllc.oim.api.tester;
 
 import com.aptecllc.oim.api.OIMHelperClient;
-import com.aptecllc.oim.exceptions.OIMHelperException;
+import com.thortech.util.logging.Logger;
 import java.util.List;
 import java.util.Locale;
 import oracle.iam.passwordmgmt.api.PasswordMgmtService;
 import oracle.iam.passwordmgmt.vo.PasswordPolicyDescription;
 import oracle.iam.passwordmgmt.vo.ValidationResult;
 import oracle.iam.passwordmgmt.vo.rules.PasswordRuleDescription;
-import org.apache.log4j.Logger;
 import org.junit.Test;
 
 /**
@@ -45,7 +44,7 @@ public class ClientTestPasswordMgt extends OIMHelperClient {
         try {
             loadConfig(null);
             loginWithCustomEnv();
-        } catch (OIMHelperException e) {
+        } catch (Exception e) {
             logger.error("Error", e);
             return;
         }

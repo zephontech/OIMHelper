@@ -18,8 +18,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import oracle.iam.reconciliation.api.ReconOperationsService;
-import org.apache.log4j.Logger;
 import com.aptecllc.oim.csv.CsvReader;
+import com.thortech.util.logging.Logger;
 import java.util.Set;
 import org.junit.Test;
 
@@ -170,7 +170,7 @@ public class ClientTesterRecon extends OIMHelperClient {
        
         for(Map recordMap : recordMapList)
         {
-            logger.debug(recordMap);
+            logger.debug("Record:" + recordMap);
             try {
                 eventKey = reconOp.createReconciliationEvent(targetResource, recordMap, true);
                 //reconOp.finishReconciliationEvent(eventKey);
@@ -195,7 +195,7 @@ public class ClientTesterRecon extends OIMHelperClient {
         
         for(Map recordMap : recordMapList)
         {
-            logger.debug(recordMap);
+            logger.debug("Record:" + recordMap);
             try {
                 eventKey = reconOp.createDeleteReconciliationEvent(targetResource, recordMap);
                 //eventKey = reconOp.createReconciliationEvent(targetResource, recordMap, true);

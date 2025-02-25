@@ -8,8 +8,8 @@ package com.aptecllc.oim.api.tester;
 import Thor.API.Exceptions.tcAPIException;
 import com.aptecllc.oim.exceptions.OIMHelperException;
 import com.aptecllc.oim.api.OIMHelperClient;
+import com.thortech.util.logging.Logger;
 import oracle.iam.reconciliation.api.ReconOperationsService;
-import org.apache.log4j.Logger;
 import org.junit.Test;
 
 /**

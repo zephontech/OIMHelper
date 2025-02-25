@@ -8,8 +8,8 @@ import com.aptecllc.oim.api.OIMForms;
 import com.aptecllc.oim.api.OIMITResources;
 import com.aptecllc.oim.api.OIMlookupUtilities;
 import com.aptecllc.oim.oimutils.StringUtils;
+import com.thortech.util.logging.Logger;
 import java.util.Map;
-import org.apache.log4j.Logger;
 
 /**
  *

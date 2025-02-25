@@ -6,17 +6,9 @@ package com.aptecllc.oim.api.tester;
 
 import com.aptecllc.oim.api.OIMHelperClient;
 import com.aptecllc.oim.exceptions.OIMHelperException;
-import java.io.BufferedOutputStream;
+import com.thortech.util.logging.Logger;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
-import oracle.iam.platformservice.api.PlatformService;
-import org.apache.log4j.Logger;
 import org.junit.Test;
 
 

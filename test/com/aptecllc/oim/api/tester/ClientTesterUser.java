@@ -8,6 +8,7 @@ package com.aptecllc.oim.api.tester;
 import com.aptecllc.oim.exceptions.OIMHelperException;
 import com.aptecllc.oim.api.OIMHelperClient;
 import com.aptecllc.oim.api.OIMUsers;
+import com.thortech.util.logging.Logger;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -17,7 +18,6 @@ import oracle.iam.identity.usermgmt.api.UserManagerConstants;
 import oracle.iam.identity.usermgmt.api.UserManagerConstants.AttributeName;
 import oracle.iam.identity.usermgmt.vo.User;
 import oracle.iam.platform.entitymgr.vo.SearchCriteria;
-import org.apache.log4j.Logger;
 import org.junit.Test;
 
 /**

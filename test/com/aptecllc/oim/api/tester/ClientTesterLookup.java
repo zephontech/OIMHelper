@@ -8,10 +8,10 @@ package com.aptecllc.oim.api.tester;
 import com.aptecllc.oim.exceptions.OIMHelperException;
 import com.aptecllc.oim.api.OIMHelperClient;
 import com.aptecllc.oim.api.OIMlookupUtilities;
+import com.thortech.util.logging.Logger;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
-import org.apache.log4j.Logger;
 import org.junit.Test;
 
 /**

@@ -7,12 +7,12 @@ package com.aptecllc.oim.api.tester;
 
 import com.aptecllc.oim.exceptions.OIMHelperException;
 import com.aptecllc.oim.api.OIMHelperClient;
+import com.thortech.util.logging.Logger;
 import com.thortech.xl.dataaccess.tcDataSet;
 import com.thortech.xl.dataaccess.tcDataSetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import org.apache.log4j.Logger;
 import org.junit.Test;
 
 /**

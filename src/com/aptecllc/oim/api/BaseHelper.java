@@ -5,8 +5,6 @@
 
 package com.aptecllc.oim.api;
 
-import org.apache.log4j.Logger;
-
 /**
  *
  */

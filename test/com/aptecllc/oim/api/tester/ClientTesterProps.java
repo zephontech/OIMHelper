@@ -9,6 +9,7 @@ import Thor.API.tcResultSet;
 import com.aptecllc.oim.exceptions.OIMHelperException;
 import com.aptecllc.oim.api.OIMHelperClient;
 import com.aptecllc.oim.api.OIMProperties;
+import com.thortech.util.logging.Logger;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
@@ -16,7 +17,6 @@ import java.util.Set;
 import oracle.iam.scheduler.api.SchedulerService;
 import oracle.iam.scheduler.vo.JobDetails;
 import oracle.iam.scheduler.vo.JobParameter;
-import org.apache.log4j.Logger;
 import org.junit.Test;
 
 /**

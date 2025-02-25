@@ -7,6 +7,7 @@ package com.aptecllc.oim.api;
 
 import com.aptecllc.oim.exceptions.OIMHelperException;
 import com.aptecllc.oim.oimutils.StringUtils;
+import com.thortech.util.logging.Logger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -42,7 +43,6 @@ import oracle.iam.platform.authopss.vo.AdminRoleMembership;
 import oracle.iam.platform.entitymgr.vo.SearchCriteria;
 import oracle.iam.platformservice.api.AdminRoleService;
 
-import org.apache.log4j.Logger;
 
 
 /**
@@ -726,7 +726,7 @@ public class OIMUsers extends BaseHelper {
                 if (ar.getRoleDisplayName().equalsIgnoreCase(roleName)) {
                     String name = ar.getRoleName();
                     for (AdminRoleMembership am : mss) {
-                        logger.debug(am);
+                        logger.debug("AdminRoleMembership:" + am);
                         if (am.getAdminRoleName().equalsIgnoreCase(name)) {
                             logger.debug("Removing:" + roleName + ":" + am.getScopeId());
                             arsOp.removeAdminRoleMembership(am);
