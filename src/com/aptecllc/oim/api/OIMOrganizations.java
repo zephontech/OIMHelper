@@ -6,7 +6,6 @@
 package com.aptecllc.oim.api;
 
 import com.aptecllc.oim.exceptions.OIMHelperException;
-import com.thortech.util.logging.Logger;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -19,6 +18,8 @@ import oracle.iam.platform.OIMClient;
 import oracle.iam.platform.Platform;
 import oracle.iam.platform.authz.exception.AccessDeniedException;
 import oracle.iam.platform.entitymgr.vo.SearchCriteria;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  *
@@ -27,7 +28,7 @@ public class OIMOrganizations extends BaseHelper {
 
 
     private OrganizationManager orgOp;
-    private Logger logger = Logger.getLogger(this.getClass().getName());
+    private Logger logger = LogManager.getLogger(this.getClass().getName());
 
     /**
      * Constructor

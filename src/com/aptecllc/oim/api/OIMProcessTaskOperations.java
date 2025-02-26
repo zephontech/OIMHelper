@@ -9,14 +9,14 @@ import Thor.API.Operations.tcProvisioningOperationsIntf;
 import Thor.API.tcResultSet;
 import com.aptecllc.oim.exceptions.OIMHelperException;
 import com.aptecllc.oim.model.OpenTask;
-import com.thortech.util.logging.Logger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import oracle.iam.platform.OIMClient;
 import oracle.iam.platform.Platform;
-
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 /**
  *
  * @author fforester
@@ -26,7 +26,7 @@ public class OIMProcessTaskOperations {
     /**
      * The default logger instance for this instance.
      */
-    private Logger logger = Logger.getLogger(this.getClass().getName());
+    private Logger logger = LogManager.getLogger(this.getClass().getName());
     
     private tcProvisioningOperationsIntf provOps;
     private TaskDefinitionOperationsIntf taskOps;

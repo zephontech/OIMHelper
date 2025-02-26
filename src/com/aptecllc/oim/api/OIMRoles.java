@@ -6,7 +6,6 @@
 package com.aptecllc.oim.api;
 
 import com.aptecllc.oim.exceptions.OIMHelperException;
-import com.thortech.util.logging.Logger;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -33,7 +32,8 @@ import oracle.iam.identity.rolemgmt.vo.RoleManagerResult;
 import oracle.iam.platform.Platform;
 import oracle.iam.platform.authopss.vo.AdminRole;
 import oracle.iam.platformservice.api.AdminRoleService;
-
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 /**
  *
  */
@@ -41,7 +41,7 @@ public class OIMRoles extends BaseHelper {
 
     private RoleManager roleOp;
     private AdminRoleService arsOp;
-    private Logger logger = Logger.getLogger(this.getClass().getName());
+    private Logger logger = LogManager.getLogger(this.getClass().getName());
 
     
 

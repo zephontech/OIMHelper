@@ -10,19 +10,19 @@ import Thor.API.Exceptions.tcITResourceDefinitionNotFoundException;
 import Thor.API.Exceptions.tcITResourceNotFoundException;
 import Thor.API.Exceptions.tcInvalidAttributeException;
 import Thor.API.Operations.*;
-import com.thortech.util.logging.Logger;
 //import com.thortech.util.logging.*;
 import java.util.*;
 import oracle.iam.platform.OIMClient;
 import oracle.iam.platform.Platform;
-
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 public class OIMITResources extends BaseHelper {
 
     /**
      * The default logger instance for this instance.
      */
     //private Logger logger;
-    private Logger logger = Logger.getLogger(this.getClass().getName());
+    private Logger logger = LogManager.getLogger(this.getClass().getName());
     /**
      * The IT resource definition operations instance that backs this object.
      */

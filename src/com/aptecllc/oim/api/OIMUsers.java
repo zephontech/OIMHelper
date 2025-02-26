@@ -7,7 +7,6 @@ package com.aptecllc.oim.api;
 
 import com.aptecllc.oim.exceptions.OIMHelperException;
 import com.aptecllc.oim.oimutils.StringUtils;
-import com.thortech.util.logging.Logger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -42,7 +41,8 @@ import oracle.iam.platform.authopss.vo.AdminRole;
 import oracle.iam.platform.authopss.vo.AdminRoleMembership;
 import oracle.iam.platform.entitymgr.vo.SearchCriteria;
 import oracle.iam.platformservice.api.AdminRoleService;
-
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 
 /**
@@ -56,7 +56,7 @@ public class OIMUsers extends BaseHelper {
     private OrganizationManager orgOp;
     private AccessPolicyService accessPolicySvc;
     
-    private Logger logger = Logger.getLogger(this.getClass().getName());
+    private Logger logger = LogManager.getLogger(this.getClass().getName());
 
 
     /**

@@ -6,7 +6,6 @@ package com.aptecllc.oim.api;
 
 import Thor.API.Operations.tcExportOperationsIntf;
 import com.aptecllc.oim.exceptions.OIMHelperException;
-import com.thortech.util.logging.Logger;
 import com.thortech.xl.vo.ddm.RootObject;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -22,6 +21,8 @@ import java.util.List;
 import java.util.Set;
 import oracle.iam.platform.OIMClient;
 import oracle.iam.platform.Platform;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  *
@@ -29,7 +30,7 @@ import oracle.iam.platform.Platform;
  */
 public class OIMDeploymentManager extends BaseHelper{
     
-    private Logger logger = Logger.getLogger(this.getClass().getName());
+    private Logger logger = LogManager.getLogger(this.getClass().getName());
     private tcExportOperationsIntf exportOps;
     private String baseDirectory;
 

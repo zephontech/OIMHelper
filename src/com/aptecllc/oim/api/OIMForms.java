@@ -4,17 +4,17 @@ import com.aptecllc.oim.exceptions.OIMHelperException;
 import Thor.API.*;
 import Thor.API.Exceptions.*;
 import Thor.API.Operations.*;
-import com.thortech.util.logging.Logger;
-//import com.thortech.util.logging.*;
 import java.sql.*;
 import java.text.*;
 import java.util.*;
 import oracle.iam.platform.OIMClient;
 import oracle.iam.platform.Platform;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class OIMForms extends BaseHelper {
 
-    private Logger logger = Logger.getLogger(this.getClass().getName());
+    private Logger logger = LogManager.getLogger(this.getClass().getName());
     private tcFormDefinitionOperationsIntf formDefOp;
     private tcFormInstanceOperationsIntf formInstOp;
 

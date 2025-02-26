@@ -9,12 +9,12 @@ import Thor.API.Exceptions.tcInvalidAttributeException;
 import Thor.API.Exceptions.tcInvalidLookupException;
 import Thor.API.Exceptions.tcInvalidValueException;
 import Thor.API.Operations.*;
-import com.thortech.util.logging.Logger;
 import com.thortech.xl.dataaccess.*;
 import java.util.*;
 import oracle.iam.platform.OIMClient;
 import oracle.iam.platform.Platform;
-
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 /**
  * This is provides common functions for lookups.
  * 
@@ -25,7 +25,7 @@ public final class OIMlookupUtilities extends BaseHelper {
      * The default logger instance for this instance.
      */
     //private Logger logger;
-    private Logger logger = Logger.getLogger(this.getClass().getName());
+    private Logger logger = LogManager.getLogger(this.getClass().getName());
     /**
      * The lookup operations instance that backs this object.
      */

@@ -5,7 +5,6 @@
 package com.aptecllc.oim.api;
 
 import com.aptecllc.oim.exceptions.OIMHelperException;
-import com.thortech.util.logging.Logger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -15,7 +14,8 @@ import oracle.iam.platform.entitymgr.vo.SearchCriteria;
 import oracle.iam.provisioning.api.ProvisioningConstants;
 import oracle.iam.provisioning.api.ProvisioningService;
 import oracle.iam.provisioning.vo.Account;
-
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 /**
  *
  * wrapper for prov service
@@ -23,7 +23,7 @@ import oracle.iam.provisioning.vo.Account;
 public class OIMProvisioningOperations {
     
     
-    private Logger logger = Logger.getLogger(this.getClass().getName());
+    private Logger logger = LogManager.getLogger(this.getClass().getName());
     private ProvisioningService provServOps;
     
     /**
