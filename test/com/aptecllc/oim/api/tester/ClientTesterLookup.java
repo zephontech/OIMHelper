@@ -21,7 +21,7 @@ public class ClientTesterLookup extends OIMHelperClient {
 
     private String testTableName = "Lookup.MyTestLookup";
 
-    private Logger logger = Logger.getLogger(this.getClass().getName());
+    private CustomTestLogger logger = CustomTestLogger.getLogger(this.getClass().getName());
     OIMlookupUtilities oimLookup;
 
     @Test

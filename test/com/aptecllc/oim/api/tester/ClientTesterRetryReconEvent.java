@@ -17,7 +17,7 @@ import org.junit.Test;
  */
 public class ClientTesterRetryReconEvent extends OIMHelperClient {
 
-    private Logger logger = Logger.getLogger(this.getClass().getName());
+    private CustomTestLogger logger = CustomTestLogger.getLogger(this.getClass().getName());
     private String defaultConfigFile = "jndi.properties";
     
     private String[] args = {"evtid1","evtid2"};

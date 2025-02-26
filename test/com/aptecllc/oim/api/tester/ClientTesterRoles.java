@@ -30,7 +30,7 @@ import org.junit.Test;
  */
 public class ClientTesterRoles extends OIMHelperClient {
 
-    private Logger logger = Logger.getLogger(this.getClass().getName());
+    private CustomTestLogger logger = CustomTestLogger.getLogger(this.getClass().getName());
     private OIMUsers oimUsers;
     private OIMRoles oimRoles;
     private OIMOrganizations oimOrgs;

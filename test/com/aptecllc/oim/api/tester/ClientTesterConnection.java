@@ -7,7 +7,6 @@ package com.aptecllc.oim.api.tester;
 
 import com.aptecllc.oim.exceptions.OIMHelperException;
 import com.aptecllc.oim.api.OIMHelperClient;
-import com.thortech.util.logging.Logger;
 import oracle.iam.reconciliation.api.ReconOperationsService;
 import org.junit.Test;
 
@@ -17,13 +16,12 @@ import org.junit.Test;
 public class ClientTesterConnection extends OIMHelperClient {
 
     private static ReconOperationsService reconOp;
-    private Logger logger = Logger.getLogger(this.getClass().getName());
-
+    private CustomTestLogger logger = CustomTestLogger.getLogger(ClientTesterConnection.class.getName());
+    
     @Test
     public void mainTest() {
 
         //ClientTesterConnection testconn = new ClientTesterConnection();
-
         logger.info("loginWithCustomEnv");
         try {
             loadConfig(null);
@@ -44,7 +42,7 @@ public class ClientTesterConnection extends OIMHelperClient {
 
         logger.info("Connection Success");
 
-        logger.info("Show Class Loaders");
+        logger.debug("Show Class Loaders");
 
         ClassLoader current = new ClientTesterConnection().getClass().getClassLoader();
 

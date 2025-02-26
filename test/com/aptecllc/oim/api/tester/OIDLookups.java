@@ -17,7 +17,7 @@ import com.thortech.util.logging.Logger;
  */
 public class OIDLookups extends OIMHelperClient {
     
-    private Logger logger = Logger.getLogger(this.getClass().getName());
+    private CustomTestLogger logger = CustomTestLogger.getLogger(this.getClass().getName());
     
     private String[] lookups = {"Lookup.LDAP.Configuration",
                                 "Lookup.LDAP.Configuration.Trusted",

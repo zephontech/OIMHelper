@@ -24,7 +24,7 @@ import org.junit.Test;
  */
 public class ClientTesterDMExporter extends OIMHelperClient {
     
-    private Logger logger = Logger.getLogger(this.getClass().getName());
+    private CustomTestLogger logger = CustomTestLogger.getLogger(this.getClass().getName());
     private OIMDeploymentManager deployOps;
     private tcExportOperationsIntf exportOps;
     private String baseDir = "C:\\Users\\fforester\\Downloads\\export-fsudev";

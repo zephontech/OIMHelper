@@ -28,7 +28,7 @@ import org.junit.Test;
  */
 public class ClientTesterRecon extends OIMHelperClient {
 
-    private Logger logger = Logger.getLogger(this.getClass().getName());
+    private CustomTestLogger logger = CustomTestLogger.getLogger(this.getClass().getName());
 
     private String defaultConfigFile = "jndi.properties";
 

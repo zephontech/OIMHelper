@@ -12,7 +12,6 @@ import com.aptecllc.oim.api.OIMProvisioningOperations;
 import com.aptecllc.oim.api.OIMUsers;
 import com.aptecllc.oim.exceptions.OIMHelperException;
 import com.aptecllc.oim.model.OpenTask;
-import com.thortech.util.logging.Logger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -28,7 +27,7 @@ import org.junit.Test;
  */
 public class ClientTestProvOps extends OIMHelperClient {
     
-    private Logger logger = Logger.getLogger(this.getClass().getName());
+    private CustomTestLogger logger = CustomTestLogger.getLogger(this.getClass().getName());
      private tcProvisioningOperationsIntf provOps;
      private OIMProcessTaskOperations taskOps;
      private OIMProvisioningOperations oimProvOps;

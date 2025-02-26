@@ -25,7 +25,7 @@ import org.junit.Test;
 public class ClientTesterProps extends OIMHelperClient {
 
     private static OIMProperties oimProperties;
-    private Logger logger = Logger.getLogger(this.getClass().getName());
+    private CustomTestLogger logger = CustomTestLogger.getLogger(this.getClass().getName());
 
     @Test
     public void mainTest() {

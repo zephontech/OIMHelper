@@ -24,7 +24,7 @@ public class ClientTesterForms extends OIMHelperClient {
 
     private static tcFormDefinitionOperationsIntf formDefOps;
     private static tcFormInstanceOperationsIntf formInstanceOps;
-    private Logger logger = Logger.getLogger(this.getClass().getName());
+    private CustomTestLogger logger = CustomTestLogger.getLogger(this.getClass().getName());
 
     @Test
     public void mainTest() {

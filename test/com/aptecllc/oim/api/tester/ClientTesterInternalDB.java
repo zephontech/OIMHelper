@@ -20,7 +20,7 @@ import org.junit.Test;
  */
 public class ClientTesterInternalDB extends OIMHelperClient {
 
-    private Logger logger = Logger.getLogger(this.getClass().getName());
+    private CustomTestLogger logger = CustomTestLogger.getLogger(this.getClass().getName());
 
     @Test
     public void mainTest()

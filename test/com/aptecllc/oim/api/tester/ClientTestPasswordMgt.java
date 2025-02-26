@@ -6,7 +6,6 @@
 package com.aptecllc.oim.api.tester;
 
 import com.aptecllc.oim.api.OIMHelperClient;
-import com.thortech.util.logging.Logger;
 import java.util.List;
 import java.util.Locale;
 import oracle.iam.passwordmgmt.api.PasswordMgmtService;
@@ -22,7 +21,7 @@ import org.junit.Test;
 public class ClientTestPasswordMgt extends OIMHelperClient {
     
     
-    private Logger logger = Logger.getLogger(this.getClass().getName());
+    private CustomTestLogger logger = CustomTestLogger.getLogger(ClientTestPasswordMgt.class);
     private PasswordMgmtService passwordOp;
     
     private String password = "1 dmapte$t#";
