@@ -9,11 +9,12 @@ import Thor.API.tcResultSet;
 import tech.zephon.oim.exceptions.OIMHelperException;
 import tech.zephon.oim.api.OIMHelperClient;
 import tech.zephon.oim.api.OIMProperties;
-import com.thortech.util.logging.Logger;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import oracle.iam.scheduler.api.SchedulerService;
 import oracle.iam.scheduler.vo.JobDetails;
 import oracle.iam.scheduler.vo.JobParameter;
@@ -25,7 +26,7 @@ import org.junit.Test;
 public class ClientTesterProps extends OIMHelperClient {
 
     private static OIMProperties oimProperties;
-    private CustomTestLogger logger = CustomTestLogger.getLogger(this.getClass().getName());
+    private static final Logger logger = Logger.getLogger(ClientTesterProps.class.getName());
 
     @Test
     public void mainTest() {
@@ -38,13 +39,16 @@ public class ClientTesterProps extends OIMHelperClient {
             loginWithCustomEnv();
 
             oimProperties = new OIMProperties(getClient());
+            Map lku = oimProperties.getLookupProperties("Lookup.USR_PROCESS_TRIGGERS");
+            logger.fine("Lku:" + lku);
             //showAll();
-            //showSpecificITResource("FIMGHRDBTRUSTED_GTC");
+            showSpecificITResource("APP2USER");
             //doJobProps();
-            //getTaskProperties("ICF Netjuke User Recon");
-            setTaskProperties("EY Master Active Directory User Target Recon","Latest Token","65403640");
+            getTaskProperties("TestOIMHelper");
+            setTaskProperties("TestOIMHelper","Test Value One","Newer Value One");
+            getTaskProperties("TestOIMHelper");
         } catch (OIMHelperException e) {
-            logger.error("Error", e);
+            logger.log(Level.SEVERE,"Error", e);
         }
 
     }
@@ -75,65 +79,65 @@ public class ClientTesterProps extends OIMHelperClient {
             }
 
             hashMap.put("Task Scheduler.Task Attributes.Value", "2013-11-23 11:06:38.727");
-            logger.debug("TaskKey:" + schTaskKey);
-            logger.debug("AttrKey:" + attrKey);
-            logger.debug("AttrMap:" + hashMap);
+            logger.fine("TaskKey:" + schTaskKey);
+            logger.fine("AttrKey:" + attrKey);
+            logger.fine("AttrMap:" + hashMap);
             scheduleOps.updateScheduleTaskAttribute(schTaskKey, attrKey, hashMap);
         } catch (Exception e) {
-            logger.error("APIError:", e);
+            logger.log(Level.SEVERE,"APIError:", e);
         }
     }
 
     public void showAll() {
-        logger.debug("Get ITRes Parms");
+        logger.fine("Get ITRes Parms");
         try {
             Map propMap = oimProperties.getITResourceProperties("Directory Server");
             logger.info("IT Resource Props " + propMap);
         } catch (OIMHelperException e) {
-            logger.error("OIM Exception", e);
+            logger.log(Level.SEVERE,"OIM Exception", e);
         }
-        logger.debug("");
-        logger.debug("Get Lookup Parms");
+        logger.fine("");
+        logger.fine("Get Lookup Parms");
         try {
             Map propMap = oimProperties.getLookupProperties("Lookup.USR_PROCESS_TRIGGERS");
             logger.info("Lookup Props " + propMap);
         } catch (OIMHelperException e) {
-            logger.error("OIM Exception", e);
+            logger.log(Level.SEVERE,"OIM Exception", e);
         }
 
-        logger.debug("");
-        logger.debug("Get All Job Parms");
+        logger.fine("");
+        logger.fine("Get All Job Parms");
         try {
             String[] jobs = oimProperties.getAllJobs();
             for (String job : jobs) {
-                logger.debug("Get Job " + job);
+                logger.fine("Get Job " + job);
                 Map propMap = oimProperties.getTaskProperties(job);
                 logger.info("Task Props " + propMap);
             }
         } catch (OIMHelperException e) {
-            logger.error("OIM Exception", e);
+            logger.log(Level.SEVERE,"OIM Exception", e);
         }
     }
     
     public void showJob(String jobName)
     {
         try {
-            logger.debug("Get Job " + jobName);
+            logger.fine("Get Job " + jobName);
             Map propMap = oimProperties.getTaskProperties(jobName);
             logger.info("Task Props " + propMap);
         } catch (OIMHelperException e) {
-            logger.error("OIM Exception", e);
+            logger.log(Level.SEVERE,"OIM Exception", e);
         }
     }
     
     public void showSpecificITResource(String resName)
     {
-        logger.debug("Get ITRes Parms:" + resName);
+        logger.fine("Get ITRes Parms:" + resName);
         try {
             Map propMap = oimProperties.getITResourceProperties(resName);
             logger.info("IT Resource Props " + propMap);
         } catch (OIMHelperException e) {
-            logger.error("OIM Exception", e);
+            logger.log(Level.SEVERE,"OIM Exception", e);
         }
     }
     
@@ -142,12 +146,12 @@ public class ClientTesterProps extends OIMHelperClient {
         Map jobProps = new HashMap();
 
         try {
-            //logger.debug("Get Job " + taskName);
+            //logger.fine("Get Job " + taskName);
             JobDetails jd = scheduleOps.getJobDetail(taskName);
 
             if (jd == null)
             {
-                logger.error("Job Not Found for " + taskName);
+                logger.log(Level.SEVERE,"Job Not Found for " + taskName);
                 throw new OIMHelperException("Job Not Found for " + taskName);
             }
 
@@ -155,24 +159,24 @@ public class ClientTesterProps extends OIMHelperClient {
 
             if (parms == null)
             {
-                logger.debug("No Parms for " + taskName);
+                logger.fine("No Parms for " + taskName);
                 return jobProps;
             }
             Set<String> keys = parms.keySet();
 
             for(String key : keys)
             {
-                logger.debug("Parm Key:" + key);
+                logger.fine("Parm Key:" + key);
                 JobParameter jp = parms.get(key);
-                logger.debug("DataType " + jp.getDataType());
-                logger.debug("Name " + jp.getName());
-                logger.debug("Val " + jp.getValue());
-                logger.debug("PKey " + jp.getParameterKey());
+                logger.fine("DataType " + jp.getDataType());
+                logger.fine("Name " + jp.getName());
+                logger.fine("Val " + jp.getValue());
+                logger.fine("PKey " + jp.getParameterKey());
                 jobProps.put(jp.getName(),jp.getValue().toString());
 
             }
         } catch (Exception ex) {
-            logger.error("SchedulerException",ex);
+            logger.log(Level.SEVERE,"SchedulerException",ex);
             throw new OIMHelperException("SchedulerException",ex);
         }
         return jobProps;
@@ -184,12 +188,12 @@ public class ClientTesterProps extends OIMHelperClient {
         SchedulerService scheduleOps = getClient().getService(SchedulerService.class);
 
         try {
-            //logger.debug("Get Job " + taskName);
+            //logger.fine("Get Job " + taskName);
             JobDetails jd = scheduleOps.getJobDetail(taskName);
 
             if (jd == null)
             {
-                logger.error("Job Not Found for " + taskName);
+                logger.log(Level.SEVERE,"Job Not Found for " + taskName);
                 throw new OIMHelperException("Job Not Found for " + taskName);
             }
 
@@ -197,19 +201,19 @@ public class ClientTesterProps extends OIMHelperClient {
 
             if (parms == null)
             {
-                logger.debug("No Parms for " + taskName);
+                logger.fine("No Parms for " + taskName);
                 return;
             }
             Set<String> keys = parms.keySet();
 
             for(String key : keys)
             {
-                logger.debug("Parm Key:" + key);
+                logger.fine("Parm Key:" + key);
                 JobParameter jp = parms.get(key);
-                logger.debug("DataType " + jp.getDataType());
-                logger.debug("Name " + jp.getName());
-                logger.debug("Val " + jp.getValue());
-                logger.debug("PKey " + jp.getParameterKey());
+                logger.fine("DataType " + jp.getDataType());
+                logger.fine("Name " + jp.getName());
+                logger.fine("Val " + jp.getValue());
+                logger.fine("PKey " + jp.getParameterKey());
                 if (jp.getName().equals(propertyName))
                 {
                     Serializable s = new String(value);
@@ -219,7 +223,7 @@ public class ClientTesterProps extends OIMHelperClient {
             }
             scheduleOps.updateJob(jd);
         } catch (Exception ex) {
-            logger.error("SchedulerException",ex);
+            logger.log(Level.SEVERE,"SchedulerException",ex);
             throw new OIMHelperException("SchedulerException",ex);
         }
         return;
@@ -243,14 +247,14 @@ public class ClientTesterProps extends OIMHelperClient {
                 rs.goToRow(i);
                 for(String name : headers)
                 {
-                    logger.debug(name + ":" + rs.getStringValue(name));
+                    logger.fine(name + ":" + rs.getStringValue(name));
                 }
                 
             }
         }
         catch(Exception e)
         {
-            logger.error("APIError",e);
+            logger.log(Level.SEVERE,"APIError",e);
         }
     }
 }

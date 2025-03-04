@@ -10,10 +10,11 @@ import Thor.API.Operations.tcFormInstanceOperationsIntf;
 import tech.zephon.oim.api.OIMForms;
 import tech.zephon.oim.exceptions.OIMHelperException;
 import tech.zephon.oim.api.OIMHelperClient;
-import com.thortech.util.logging.Logger;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.junit.Test;
 
 
@@ -24,7 +25,7 @@ public class ClientTesterForms extends OIMHelperClient {
 
     private static tcFormDefinitionOperationsIntf formDefOps;
     private static tcFormInstanceOperationsIntf formInstanceOps;
-    private CustomTestLogger logger = CustomTestLogger.getLogger(this.getClass().getName());
+    private static final Logger logger = Logger.getLogger(ClientTesterProps.class.getName());
 
     @Test
     public void mainTest() {
@@ -39,7 +40,7 @@ public class ClientTesterForms extends OIMHelperClient {
             formDefOps = getClient().getService(Thor.API.Operations.tcFormDefinitionOperationsIntf.class);
             formInstanceOps = getClient().getService(Thor.API.Operations.tcFormInstanceOperationsIntf.class);
 
-            logger.debug("update form");
+            logger.fine("update form");
            
             
             /*
@@ -64,7 +65,7 @@ public class ClientTesterForms extends OIMHelperClient {
         }
         catch (OIMHelperException e)
         {
-            logger.error("Error", e);
+            logger.log(Level.SEVERE,"Error", e);
         }
     }
     
@@ -85,10 +86,10 @@ public class ClientTesterForms extends OIMHelperClient {
             
             if (form == null)
             {
-                logger.error("No Form");
+                logger.log(Level.SEVERE,"No Form");
                 return;
             }
-            logger.debug("PrePopped:" + form);
+            logger.fine("PrePopped:" + form);
             Set<String> keys = form.keySet();
             for(String k : keys)
             {
@@ -99,13 +100,13 @@ public class ClientTesterForms extends OIMHelperClient {
                 }
             }
             //updateProcessForm(pik, current);
-            logger.debug("update form");
+            logger.fine("update form");
           
 
         }
         catch (OIMHelperException e)
         {
-            testform.logger.error("Error", e);
+            testform.logger.log(Level.SEVERE,"Error", e);
         }
     }
     public Map showProcessForm(long key) {
@@ -115,7 +116,7 @@ public class ClientTesterForms extends OIMHelperClient {
             logger.info("Parent Rec " + rec);
             return rec;
         } catch (Exception e) {
-            logger.error("Error", e);
+            logger.log(Level.SEVERE,"Error", e);
             return null;
         }
 
@@ -133,7 +134,7 @@ public class ClientTesterForms extends OIMHelperClient {
                     }
                 }
             } catch (Exception e) {
-                logger.error("Error", e);
+                logger.log(Level.SEVERE,"Error", e);
             }
     }
     
@@ -143,7 +144,7 @@ public class ClientTesterForms extends OIMHelperClient {
         try {
             oimForms.setProcessFormValues(key, values);
         } catch (Exception e) {
-            logger.error("Error", e);
+            logger.log(Level.SEVERE,"Error", e);
         }
     }
     
@@ -157,7 +158,7 @@ public class ClientTesterForms extends OIMHelperClient {
             logger.info("Prepop Rec " + rec);
             return rec;
         } catch (Exception e) {
-            logger.error("Error", e);
+            logger.log(Level.SEVERE,"Error", e);
             return null;
         }
     }

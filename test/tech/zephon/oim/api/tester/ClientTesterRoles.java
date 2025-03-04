@@ -10,11 +10,12 @@ import tech.zephon.oim.api.OIMHelperClient;
 import tech.zephon.oim.api.OIMOrganizations;
 import tech.zephon.oim.api.OIMRoles;
 import tech.zephon.oim.api.OIMUsers;
-import com.thortech.util.logging.Logger;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import oracle.iam.identity.orgmgmt.vo.Organization;
 import oracle.iam.identity.rolemgmt.vo.Role;
 import oracle.iam.identity.usermgmt.api.UserManagerConstants;
@@ -30,7 +31,7 @@ import org.junit.Test;
  */
 public class ClientTesterRoles extends OIMHelperClient {
 
-    private CustomTestLogger logger = CustomTestLogger.getLogger(this.getClass().getName());
+    private static final Logger logger = Logger.getLogger(ClientTesterDMExporter.class.getName());
     private OIMUsers oimUsers;
     private OIMRoles oimRoles;
     private OIMOrganizations oimOrgs;
@@ -45,7 +46,7 @@ public class ClientTesterRoles extends OIMHelperClient {
             oimRoles = new OIMRoles(getClient());
             oimOrgs = new OIMOrganizations(getClient());
         } catch (OIMHelperException e) {
-            logger.error("Error", e);
+            logger.log(Level.SEVERE,"Error", e);
             return;
         }
        /*
@@ -63,13 +64,13 @@ public class ClientTesterRoles extends OIMHelperClient {
             Organization org = oimOrgs.getOrganization("Top",true);
             if (org == null)
             {
-                logger.error("Error no org");
+                logger.log(Level.SEVERE,"Error no org");
             }
-            logger.debug("ORG:" + org);
+            logger.fine("ORG:" + org);
         }
         catch(Exception e)
         {
-            logger.error("Error", e);
+            logger.log(Level.SEVERE,"Error", e);
             return;
         }
         
@@ -81,18 +82,18 @@ public class ClientTesterRoles extends OIMHelperClient {
                 if (o instanceof AdminRole)
                 {
                     AdminRole ar = (AdminRole)o;
-                    logger.debug(ar.getRoleDisplayName() + ":" + ar);
+                    logger.fine(ar.getRoleDisplayName() + ":" + ar);
                 }
                 else
                 {
-                    logger.debug("Unknown:" + o);
+                    logger.fine("Unknown:" + o);
                 }
             }
             
         }
         catch(Exception e)
         {
-            logger.error("Error", e);
+            logger.log(Level.SEVERE,"Error", e);
             return;
         }
         
@@ -111,7 +112,7 @@ public class ClientTesterRoles extends OIMHelperClient {
         }
         catch(Exception e)
         {
-            logger.error("Error", e);
+            logger.log(Level.SEVERE,"Error", e);
         }
         showRoles("FFORESTER");
         
@@ -124,7 +125,7 @@ public class ClientTesterRoles extends OIMHelperClient {
         }
         catch(Exception e)
         {
-            logger.error("Error", e);
+            logger.log(Level.SEVERE,"Error", e);
         }
         // then you have to remove both
         //removeUsersRoles("FFORESTER","SYSTEM ADMINISTRATORS");
@@ -139,14 +140,14 @@ public class ClientTesterRoles extends OIMHelperClient {
     {
         try
         {
-            logger.debug("getting User");
+            logger.fine("getting User");
             User u = oimUsers.getUser(user);
-            logger.debug("User:" + u);
-            logger.debug("getting User Roles");
+            logger.fine("User:" + u);
+            logger.fine("getting User Roles");
             List<Object> uRoles = oimUsers.getAllUsersRoles(u.getId(),true);
             for(Object oimRole : uRoles)
             {
-                logger.debug("Role:" + oimRole);
+                logger.fine("Role:" + oimRole);
                 
             }
 
@@ -154,13 +155,13 @@ public class ClientTesterRoles extends OIMHelperClient {
             List<AdminRoleMembership> mss = oimUsers.getAdminRoleMemberships(new Long(u.getId()));
             for(AdminRoleMembership am : mss)
             {
-                logger.debug("AMMember:" + am);
+                logger.fine("AMMember:" + am);
             }
             
         }
         catch(OIMHelperException ex)
         {
-            logger.error("OIMHelperException",ex);
+            logger.log(Level.SEVERE,"OIMHelperException",ex);
         }
 
     }
@@ -172,7 +173,7 @@ public class ClientTesterRoles extends OIMHelperClient {
         List<AdminRole> myroles = ars.getAdminRolesForUser(userKey, null);
         for(AdminRole ar : myroles)
         {
-            logger.debug(ar.getRoleDisplayName() + ":" + ar);
+            logger.fine(ar.getRoleDisplayName() + ":" + ar);
         }
         
         List<AdminRole> aroles = ars.getAdminRoles(actKey);
@@ -180,7 +181,7 @@ public class ClientTesterRoles extends OIMHelperClient {
         boolean validrole = false;
         for(AdminRole ar : aroles)
         {
-            logger.debug(ar.getRoleDisplayName() + ":" + ar);
+            logger.fine(ar.getRoleDisplayName() + ":" + ar);
             if (roleName.equals(ar.getRoleDisplayName()))
             {
                 validrole = true;
@@ -190,14 +191,14 @@ public class ClientTesterRoles extends OIMHelperClient {
         }
         if(!validrole)
         {
-            logger.debug("Role not in Specified Scope");
+            logger.fine("Role not in Specified Scope");
             return;
         }
         
         arm.setAdminRole(arhit);
         arm.setScopeId(actKey);
         arm.setUserId(userKey);
-        logger.debug("Adding role");
+        logger.fine("Adding role");
         ars.addAdminRoleMembership(arm);
         
     }
@@ -217,18 +218,18 @@ public class ClientTesterRoles extends OIMHelperClient {
             List<User> users = oimUsers.search(c, retAttrs, config);
             for(User u : users)
             {
-                logger.debug("User:" + u.getLogin());
+                logger.fine("User:" + u.getLogin());
                 List<Role> uRoles = oimUsers.getAllUsersRoles(u.getId());
                 boolean hasRole = false;
                 for(Role oimRole : uRoles)
                 {
-                    logger.debug(oimRole.getName() + ":" + oimRole);
+                    logger.fine(oimRole.getName() + ":" + oimRole);
                     if (oimRole.getName().equalsIgnoreCase(roleName))
                         hasRole = true;
                 }
                 if (hasRole)
                 {
-                    logger.debug("Removing:" + roleName);
+                    logger.fine("Removing:" + roleName);
                     oimUsers.revokeUserRole(u.getLogin(),roleName);
                 }
                 
@@ -239,16 +240,16 @@ public class ClientTesterRoles extends OIMHelperClient {
                 List<AdminRole> myroles = ars.getAdminRolesForUser(u.getId(), null);
                 for(AdminRole ar : myroles)
                 {
-                    logger.debug(ar.getRoleDisplayName() + ":" + ar);
+                    logger.fine(ar.getRoleDisplayName() + ":" + ar);
                     if (ar.getRoleDisplayName().equalsIgnoreCase(roleName))
                     {
                         String name = ar.getRoleName();
                         for(AdminRoleMembership am : mss)
                         {
-                            logger.debug("AMMember:" + am);
+                            logger.fine("AMMember:" + am);
                             if (am.getAdminRoleName().equalsIgnoreCase(name))
                             {
-                                logger.debug("Removing:" + roleName + ":" + am.getScopeId());
+                                logger.fine("Removing:" + roleName + ":" + am.getScopeId());
                                 ars.removeAdminRoleMembership(am);
                             }
                         }
@@ -258,7 +259,7 @@ public class ClientTesterRoles extends OIMHelperClient {
         }
         catch(Exception e)
         {
-            logger.error("ApiError:" + e.toString(),e);
+            logger.log(Level.SEVERE,"ApiError:" + e.toString(),e);
         }
     }
     
@@ -276,15 +277,15 @@ public class ClientTesterRoles extends OIMHelperClient {
             config.put("ENDROW",Integer.toString(Integer.MAX_VALUE));
             
             List<User> users = oimUsers.search(c, retAttrs, config);
-            logger.debug("Processing:" + users.size());
+            logger.fine("Processing:" + users.size());
             for(User u : users)
             {
-                //logger.debug("User:" + u.getLogin());
+                //logger.fine("User:" + u.getLogin());
                 List<Role> uRoles = oimUsers.getAllUsersRoles(u.getId());
                 boolean hasRole = false;
                 for(Role oimRole : uRoles)
                 {
-                    //logger.debug(oimRole);
+                    //logger.fine(oimRole);
                     if (oimRole.getName().equalsIgnoreCase(roleName))
                         hasRole = true;
                 }
@@ -296,7 +297,7 @@ public class ClientTesterRoles extends OIMHelperClient {
         }
         catch(Exception e)
         {
-            logger.error("ApiError:" + e.toString(),e);
+            logger.log(Level.SEVERE,"ApiError:" + e.toString(),e);
         }
     }
     
@@ -307,77 +308,77 @@ public class ClientTesterRoles extends OIMHelperClient {
         
         try
         {
-            logger.debug("getting roles");
+            logger.fine("getting roles");
             List<Role> allRoles = oimRoles.getAllRoles();
 
             for(Role oimRole : allRoles)
             {
-                logger.debug("Role:" + oimRole);
+                logger.fine("Role:" + oimRole);
             }
             
         }
         catch(OIMHelperException ex)
         {
-            logger.error("OIMHelperException",ex);
+            logger.log(Level.SEVERE,"OIMHelperException",ex);
         }
         
         try
         {
             OIMOrganizations aiOrgs = new OIMOrganizations(getClient());
-            logger.debug("getting Orgs");
+            logger.fine("getting Orgs");
             List<Organization> allOrgs = aiOrgs.getAllOrganizations();
 
             for(Organization oimOrg : allOrgs)
             {
-                logger.debug("ORG:" + oimOrg);
+                logger.fine("ORG:" + oimOrg);
             }
             
         }
         catch(OIMHelperException ex)
         {
-            logger.error("OIMHelperException",ex);
+            logger.log(Level.SEVERE,"OIMHelperException",ex);
         }
 
         boolean hasOperator = false;
 
         try
         {
-            logger.debug("getting User");
+            logger.fine("getting User");
             User u = oimUsers.getUser("FFORESTER");
-            logger.debug("User:" + u);
-            logger.debug("getting User Roles");
+            logger.fine("User:" + u);
+            logger.fine("getting User Roles");
             List<Role> uRoles = oimUsers.getAllUsersRoles(u.getId());
             for(Role oimRole : uRoles)
             {
-                logger.debug("Role:" + oimRole);
+                logger.fine("Role:" + oimRole);
                 if (oimRole.getName().equalsIgnoreCase("operators"))
                     hasOperator = true;
             }
 
             if (hasOperator)
             {
-                logger.debug("Revoking OPERATORS Role");
+                logger.fine("Revoking OPERATORS Role");
                 boolean rc = oimUsers.revokeUserRole(u.getLogin(), "OPERATORS");
             }
 
             uRoles = oimUsers.getAllUsersRoles(u.getId());
             for(Role oimRole : uRoles)
             {
-                logger.debug("Role:" + oimRole);
+                logger.fine("Role:" + oimRole);
                 if (oimRole.getName().equalsIgnoreCase("operators"))
                     hasOperator = false;
             }
 
             if (!hasOperator)
             {
-                logger.debug("Adding OPERATORS Role");
+                logger.fine("Adding OPERATORS Role");
                 boolean rc = oimUsers.grantUserRole(u.getLogin(), "OPERATORS");
             }
 
         }
         catch(OIMHelperException ex)
         {
-            logger.error("OIMHelperException",ex);
+            logger.log(Level.SEVERE,"OIMHelperException",ex);
         }
 
 

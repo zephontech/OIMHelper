@@ -8,7 +8,6 @@ package tech.zephon.oim.api.tester;
 import Thor.API.Operations.tcImportOperationsIntf;
 import tech.zephon.oim.api.OIMHelperClient;
 import tech.zephon.oim.exceptions.OIMHelperException;
-import com.thortech.util.logging.Logger;
 import com.thortech.xl.vo.ddm.ImportPlanInfo;
 import com.thortech.xl.vo.ddm.RootObject;
 import java.io.BufferedReader;
@@ -20,6 +19,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.logging.Level;
 import org.junit.Test;
 
 /**
@@ -28,7 +28,7 @@ import org.junit.Test;
  */
 public class ClientTesterDMImporter extends OIMHelperClient {
     
-    private CustomTestLogger logger = CustomTestLogger.getLogger(this.getClass().getName());
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(ClientTesterDMImporter.class.getName());
     private tcImportOperationsIntf importOps;
     private String baseDir = "/Users/fforester/Downloads/export-fsudev";
     
@@ -81,13 +81,13 @@ public class ClientTesterDMImporter extends OIMHelperClient {
                 }
                 try
                 {
-                    logger.debug("File:" + file.getAbsolutePath());
+                    logger.fine("File:" + file.getAbsolutePath());
                     String content = readFile(file.getAbsolutePath());
                     importFile(file.getAbsolutePath(),content);
                 }
                 catch(Exception e)
                 {
-                    logger.error("APIError:" + e.getMessage());
+                    logger.log(Level.SEVERE,"APIError:" + e.getMessage());
                     //break;
                 }
             }
@@ -124,24 +124,24 @@ public class ClientTesterDMImporter extends OIMHelperClient {
             Collection<RootObject> justImported = importOps.addXMLFile(fileName, contents);
             for(RootObject r : justImported)
             {
-                logger.debug("JI:" + r);
+                logger.fine("JI:" + r);
                     
             }
             Collection<RootObject> subs = importOps.listPossibleSubstitutions(justImported);
-            logger.debug("SUBS:" + subs);
+            logger.fine("SUBS:" + subs);
             for(RootObject r : subs)
             {
-                logger.debug(r.getName() + ":" + r.getPhysicalType());
+                logger.fine(r.getName() + ":" + r.getPhysicalType());
                 if (r.getPhysicalType().contains("Version"))
                     importOps.addSubstitution(r, ms);
             }
             
             HashMap mapsubs = importOps.getSubstitutions();
-            logger.debug("NEWSUBS:" + mapsubs);
+            logger.fine("NEWSUBS:" + mapsubs);
             
             Collection<RootObject> missing = importOps.getMissingDependencies(justImported, "*");
             for(RootObject r:missing)
-                logger.debug("MIssing:" + r.getName() + ":" + r.getPhysicalType());
+                logger.fine("MIssing:" + r.getName() + ":" + r.getPhysicalType());
             
             HashMap messages = importOps.getImportMessages(justImported);
             Set keys = messages.keySet();
@@ -156,27 +156,27 @@ public class ClientTesterDMImporter extends OIMHelperClient {
                     if (o.getLevel() > 0 && !o.getMessageID().contains("RECENTTARGET"))
                     {
                         hasErrors = true;
-                        logger.debug("    ERROR:" +  o.getLevel() + ":" +  o.getMessageID() + ":" + o.getMessage() + ":" + o.getAdditionalInfo());
+                        logger.fine("    ERROR:" +  o.getLevel() + ":" +  o.getMessageID() + ":" + o.getMessage() + ":" + o.getAdditionalInfo());
                     }
                 }
-                //logger.debug("MSGID:" + k + "MSGDESC:" + messages.get(k));
-                //logger.debug("CLASS:" + messages.get(k).getClass());
-                //logger.debug("CLASS:" + k.getClass());
+                //logger.fine("MSGID:" + k + "MSGDESC:" + messages.get(k));
+                //logger.fine("CLASS:" + messages.get(k).getClass());
+                //logger.fine("CLASS:" + k.getClass());
             }
             
             if (!hasErrors)
             {
-                logger.debug("Importing:" + fileName);
+                logger.fine("Importing:" + fileName);
                 importOps.performImport(justImported);
             }
             else
             {
-                logger.debug("Skipping for errors:" + fileName);
+                logger.fine("Skipping for errors:" + fileName);
             }
         }
         catch(Exception e)
         {
-            logger.error("APIError:" + e.getMessage());
+            logger.log(Level.SEVERE,"APIError:" + e.getMessage());
             throw e;
         }
     }
@@ -190,7 +190,7 @@ public class ClientTesterDMImporter extends OIMHelperClient {
             importOps = this.getClient().getService(tcImportOperationsIntf.class);
             importOps.acquireLock(true);
         } catch (OIMHelperException e) {
-            logger.error("Error", e);
+            logger.log(Level.SEVERE,"Error", e);
             throw e;
         }
     }

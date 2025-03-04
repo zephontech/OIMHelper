@@ -8,10 +8,11 @@ package tech.zephon.oim.api.tester;
 import tech.zephon.oim.exceptions.OIMHelperException;
 import tech.zephon.oim.api.OIMHelperClient;
 import tech.zephon.oim.api.OIMlookupUtilities;
-import com.thortech.util.logging.Logger;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.junit.Test;
 
 /**
@@ -21,7 +22,7 @@ public class ClientTesterLookup extends OIMHelperClient {
 
     private String testTableName = "Lookup.MyTestLookup";
 
-    private CustomTestLogger logger = CustomTestLogger.getLogger(this.getClass().getName());
+    private static final Logger logger = Logger.getLogger(ClientTesterLookup.class.getName());
     OIMlookupUtilities oimLookup;
 
     @Test
@@ -39,7 +40,7 @@ public class ClientTesterLookup extends OIMHelperClient {
         }
         catch(OIMHelperException e)
         {
-            logger.error("Failed to connect");
+            logger.log(Level.SEVERE,"Failed to connect");
             return;
         }
 
@@ -68,14 +69,14 @@ public class ClientTesterLookup extends OIMHelperClient {
 
             Map<String,String> valMap = oimLookup.getLookupValues(testTableName);
 
-            logger.debug("ValuMap " + valMap);
+            logger.fine("ValuMap " + valMap);
 
             Set<String> keySet = valMap.keySet();
 
             for(String key : keySet)
             {
                 String val = oimLookup.getLookupValue(key, testTableName);
-                logger.debug("Key/Val " + key + "/" + val);
+                logger.fine("Key/Val " + key + "/" + val);
             }
             
             Collection<String> valSet = valMap.values();
@@ -84,7 +85,7 @@ public class ClientTesterLookup extends OIMHelperClient {
             {
                 String[] key = oimLookup.getLookupKeys(val, testTableName);
                 for (int i=0;i<key.length;i++)
-                    logger.debug("Val/Key " + val + "/" + key[i]);
+                    logger.fine("Val/Key " + val + "/" + key[i]);
             }
 
             oimLookup.updateLookupValue("1", "Onezees", testTableName);
@@ -99,12 +100,12 @@ public class ClientTesterLookup extends OIMHelperClient {
             oimLookup.updateLookupValue("0", "Zerozees", testTableName);
 
             valMap = oimLookup.getLookupValues(testTableName);
-            logger.debug("ValuMap " + valMap);
+            logger.fine("ValuMap " + valMap);
             
         }
         catch(OIMHelperException e)
         {
-            logger.error("Lookup Error ",e);
+            logger.log(Level.SEVERE,"Lookup Error ",e);
         }
     }
 

@@ -8,12 +8,13 @@ package tech.zephon.oim.api.tester;
 import tech.zephon.oim.exceptions.OIMHelperException;
 import tech.zephon.oim.api.OIMHelperClient;
 import tech.zephon.oim.api.OIMUsers;
-import com.thortech.util.logging.Logger;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import oracle.iam.identity.usermgmt.api.UserManagerConstants;
 import oracle.iam.identity.usermgmt.api.UserManagerConstants.AttributeName;
 import oracle.iam.identity.usermgmt.vo.User;
@@ -25,7 +26,7 @@ import org.junit.Test;
  */
 public class ClientTesterUser extends OIMHelperClient {
 
-    private CustomTestLogger logger = CustomTestLogger.getLogger(this.getClass().getName());
+    private static final Logger logger = Logger.getLogger(ClientTesterDMExporter.class.getName());
     private OIMUsers oimUsers;
     
 
@@ -72,14 +73,14 @@ public class ClientTesterUser extends OIMHelperClient {
             List<User> users = this.searchUsersByLogin("AA");
             for(User u : users)
             {
-                logger.debug("Login:" + u.getLogin());
+                logger.fine("Login:" + u.getLogin());
                 oimUsers.grantUserRole(u.getLogin(), "DUMMYAPP_ACTIVE");
             }
             */
         }
         catch(Exception e)
         {
-            logger.error("Failed to connect",e);
+            logger.log(Level.SEVERE,"Failed to connect",e);
             return;
         }
         
@@ -94,7 +95,7 @@ public class ClientTesterUser extends OIMHelperClient {
             }
             catch(Exception e)
             {
-                logger.error("ERROR:" + e.getMessage());
+                logger.log(Level.SEVERE,"ERROR:" + e.getMessage());
             }
         }
         */
@@ -109,7 +110,7 @@ public class ClientTesterUser extends OIMHelperClient {
         }
         catch(Exception e)
         {
-            logger.error("Search Error:" + e.toString(),e);
+            logger.log(Level.SEVERE,"Search Error:" + e.toString(),e);
             return;
         }
         
@@ -130,12 +131,12 @@ public class ClientTesterUser extends OIMHelperClient {
             List<User> users = oimUsers.search(c, retAttrs, config);
             for(User u : users)
             {
-                logger.debug("User:" + u.getLogin() + ":" + u.getId());
+                logger.fine("User:" + u.getLogin() + ":" + u.getId());
             }
         }
         catch(Exception e)
         {
-            logger.error("Search Error:" + e.toString(),e);
+            logger.log(Level.SEVERE,"Search Error:" + e.toString(),e);
         }
         
     }
@@ -164,7 +165,7 @@ public class ClientTesterUser extends OIMHelperClient {
         }
         catch(Exception e)
         {
-            logger.error("Search Error:" + e.toString(),e);
+            logger.log(Level.SEVERE,"Search Error:" + e.toString(),e);
         }
         return users;
         
@@ -172,14 +173,14 @@ public class ClientTesterUser extends OIMHelperClient {
     
     private void updateUser(String userLogin,HashMap userFields)
     {
-        logger.debug("Updateuser");
+        logger.fine("Updateuser");
         try
         {
             oimUsers.setUserValue(userLogin,userFields);
         }
         catch(Exception e)
         {
-            logger.error("OIMHelperException ",e);
+            logger.log(Level.SEVERE,"OIMHelperException ",e);
             return;
 
         }
@@ -187,7 +188,7 @@ public class ClientTesterUser extends OIMHelperClient {
     
     private void updateUser(String gpn)
     {
-        logger.debug("Updateuser");
+        logger.fine("Updateuser");
         try
         {
             //oimUsers.setUserValue("CG010068544@EYQA.NET","Title","Director");
@@ -206,7 +207,7 @@ public class ClientTesterUser extends OIMHelperClient {
         }
         catch(Exception e)
         {
-            logger.error("OIMHelperException ",e);
+            logger.log(Level.SEVERE,"OIMHelperException ",e);
             return;
 
         }
@@ -216,7 +217,7 @@ public class ClientTesterUser extends OIMHelperClient {
     {
         String[] lyncFields = {"key"};
         String[] data1 = {"val"};
-        logger.debug("Updateuser");
+        logger.fine("Updateuser");
         for(int i=6;i<lyncFields.length;i++)
         {
             try
@@ -225,7 +226,7 @@ public class ClientTesterUser extends OIMHelperClient {
             }
             catch(OIMHelperException e)
             {
-                logger.error("OIMHelperException ",e);
+                logger.log(Level.SEVERE,"OIMHelperException ",e);
                 return;
 
             }
@@ -237,7 +238,7 @@ public class ClientTesterUser extends OIMHelperClient {
         try
         {
             OIMUsers oimUsers = new OIMUsers(getClient());
-            logger.debug("getting User by ID");
+            logger.fine("getting User by ID");
             Set<String> retAttrs = new HashSet<String>();
             retAttrs.add(AttributeName.USER_LOGIN.getId());
             retAttrs.add("CertExpDate");
@@ -246,14 +247,14 @@ public class ClientTesterUser extends OIMHelperClient {
             User u = oimUsers.getUser(userId);
             if (u == null)
             {
-                logger.error("User Not Found");
+                logger.log(Level.SEVERE,"User Not Found");
                 return;
             }
             
             Set<String> attrSet = u.getAttributeNames();
             for(String name : attrSet)
             {
-                logger.debug("Name " + name + ":" + u.getAttribute(name));
+                logger.fine("Name " + name + ":" + u.getAttribute(name));
             }
         }
         catch(Exception e)
@@ -268,55 +269,55 @@ public class ClientTesterUser extends OIMHelperClient {
         try
         {
             OIMUsers oimUsers = new OIMUsers(getClient());
-            logger.debug("getting User by ID");
+            logger.fine("getting User by ID");
             User u = oimUsers.getUser("EYOIMADMIN");
             Set<String> attrSet = u.getAttributeNames();
             for(String name : attrSet)
             {
 
-                logger.debug("Name " + name + ":" + u.getAttribute(name));
+                logger.fine("Name " + name + ":" + u.getAttribute(name));
             }
 
             
-            logger.debug("");
-            logger.debug("getting User by UDF Field");
+            logger.fine("");
+            logger.fine("getting User by UDF Field");
             u = oimUsers.getUser("GPN", "EYOIMADMIN");
             if (u == null)
             {
-                logger.error("User Not Found");
+                logger.log(Level.SEVERE,"User Not Found");
                 return;
             }
 
             attrSet = u.getAttributeNames();
             for(String name : attrSet)
             {
-                logger.debug("Name " + name + ":" + u.getAttribute(name));
+                logger.fine("Name " + name + ":" + u.getAttribute(name));
             }
 
-            logger.debug("isUserActive EYOIMADMIN " + oimUsers.isUserActive("EYOIMADMIN"));
-            //logger.debug("isUserActive TESTUSER2 " + aiUsers.isUserActive("TESTUSER2"));
+            logger.fine("isUserActive EYOIMADMIN " + oimUsers.isUserActive("EYOIMADMIN"));
+            //logger.fine("isUserActive TESTUSER2 " + aiUsers.isUserActive("TESTUSER2"));
 
             String key = oimUsers.getUserKey("EYOIMADMIN");
-            logger.debug("userKey for EYOIMADMIN " + key);
+            logger.fine("userKey for EYOIMADMIN " + key);
             String login = oimUsers.getUserLoginByKey(key);
-            logger.debug("userLogin for key " + key + " = " + login);
+            logger.fine("userLogin for key " + key + " = " + login);
 
             //aiUsers.evaluatePolicies(login);
             //aiUsers.evaluatePolicies(new Long(key).longValue());
-            logger.debug("updating User UDF Field");
+            logger.fine("updating User UDF Field");
             oimUsers.setUserValue("EYOIMADMIN","GPN","EYOIMADMINX");
             
             u = oimUsers.getUser("GPN", "EYOIMADMINX");
             if (u == null)
             {
-                logger.error("User Not Found");
+                logger.log(Level.SEVERE,"User Not Found");
                 return;
             }
             attrSet = u.getAttributeNames();
             for(String name : attrSet)
             {
                 if (name.equals("GPN"))
-                    logger.debug("Name " + name + ":" + u.getAttribute(name));
+                    logger.fine("Name " + name + ":" + u.getAttribute(name));
             }
             
 
@@ -324,7 +325,7 @@ public class ClientTesterUser extends OIMHelperClient {
         }
         catch(OIMHelperException e)
         {
-            logger.error("OIMHelperException ",e);
+            logger.log(Level.SEVERE,"OIMHelperException ",e);
             return;
 
         }

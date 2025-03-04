@@ -7,12 +7,13 @@ package tech.zephon.oim.api.tester;
 
 import tech.zephon.oim.exceptions.OIMHelperException;
 import tech.zephon.oim.api.OIMHelperClient;
-import com.thortech.util.logging.Logger;
 import com.thortech.xl.dataaccess.tcDataSet;
 import com.thortech.xl.dataaccess.tcDataSetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.junit.Test;
 
 /**
@@ -20,7 +21,7 @@ import org.junit.Test;
  */
 public class ClientTesterInternalDB extends OIMHelperClient {
 
-    private CustomTestLogger logger = CustomTestLogger.getLogger(this.getClass().getName());
+    private static final Logger logger = Logger.getLogger(ClientTesterDMExporter.class.getName());
 
     @Test
     public void mainTest()
@@ -34,7 +35,7 @@ public class ClientTesterInternalDB extends OIMHelperClient {
         }
         catch(Exception e)
         {
-            logger.error("Init failed",e);
+            logger.log(Level.SEVERE,"Init failed",e);
             return;
         }
     }
@@ -47,7 +48,7 @@ public class ClientTesterInternalDB extends OIMHelperClient {
             loginWithCustomEnv();
 
         } catch (OIMHelperException e) {
-            logger.error("Error", e);
+            logger.log(Level.SEVERE,"Error", e);
             throw e;
         }
     }
@@ -75,14 +76,14 @@ public class ClientTesterInternalDB extends OIMHelperClient {
             Subject = tmpDataSet.getString("emd_subject");
             Body = tmpDataSet.getString("emd_body");
             String pw = tmpDataSet.getString("usr_password");
-            logger.debug("frmAddress - " + frmAddress);
-            logger.debug("Subject - " + Subject);
-            logger.debug("Body - " + Body);
-            logger.debug("PW - " + pw);
+            logger.fine("frmAddress - " + frmAddress);
+            logger.fine("Subject - " + Subject);
+            logger.fine("Body - " + Body);
+            logger.fine("PW - " + pw);
         }
         catch(tcDataSetException e)
         {
-            logger.error("tcDataSetException",e);
+            logger.log(Level.SEVERE,"tcDataSetException",e);
             throw new OIMHelperException("tcDataSetException",e);
         }
 
@@ -98,12 +99,12 @@ public class ClientTesterInternalDB extends OIMHelperClient {
         }
         catch(tcDataAccessException e)
         {
-            logger.error("tcDataAccessException",e);
+            logger.log(Level.SEVERE,"tcDataAccessException",e);
             throw new OIMHelperException("tcDataAccessException",e);
         }
         catch(tcDataSetException e)
         {
-            logger.error("tcDataSetException",e);
+            logger.log(Level.SEVERE,"tcDataSetException",e);
             throw new OIMHelperException("tcDataSetException",e);
         }
         *

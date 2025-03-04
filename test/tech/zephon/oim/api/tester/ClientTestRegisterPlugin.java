@@ -8,6 +8,8 @@ import tech.zephon.oim.api.OIMHelperClient;
 import tech.zephon.oim.exceptions.OIMHelperException;
 import java.io.File;
 import java.io.FileInputStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.junit.Test;
 
 
@@ -17,7 +19,7 @@ import org.junit.Test;
  */
 public class ClientTestRegisterPlugin extends OIMHelperClient {
 
-    private CustomTestLogger logger = CustomTestLogger.getLogger(this.getClass().getName());
+    private static final Logger logger = Logger.getLogger(ClientTestRegisterPlugin.class.getName());
 
     @Test
     public void mainTest() {
@@ -26,7 +28,7 @@ public class ClientTestRegisterPlugin extends OIMHelperClient {
             loadConfig(null);
             loginWithCustomEnv();
         } catch (OIMHelperException e) {
-            logger.error("Error", e);
+            logger.log(Level.SEVERE,"Error", e);
             return;
         }
 
@@ -47,7 +49,7 @@ public class ClientTestRegisterPlugin extends OIMHelperClient {
         }
         catch(Exception e)
         {
-            logger.error("Error registering plugin",e);
+            logger.log(Level.SEVERE,"Error registering plugin",e);
         }
     }
     

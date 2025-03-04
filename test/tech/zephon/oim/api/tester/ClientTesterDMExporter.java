@@ -8,7 +8,6 @@ import Thor.API.Operations.tcExportOperationsIntf;
 import tech.zephon.oim.api.OIMDeploymentManager;
 import tech.zephon.oim.api.OIMHelperClient;
 import tech.zephon.oim.exceptions.OIMHelperException;
-import com.thortech.util.logging.Logger;
 import com.thortech.xl.vo.ddm.RootObject;
 import java.io.File;
 import java.util.ArrayList;
@@ -16,6 +15,8 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.junit.Test;
 
 /**
@@ -24,7 +25,7 @@ import org.junit.Test;
  */
 public class ClientTesterDMExporter extends OIMHelperClient {
     
-    private CustomTestLogger logger = CustomTestLogger.getLogger(this.getClass().getName());
+    private static final Logger logger = Logger.getLogger(ClientTesterDMExporter.class.getName());
     private OIMDeploymentManager deployOps;
     private tcExportOperationsIntf exportOps;
     private String baseDir = "C:\\Users\\fforester\\Downloads\\export-fsudev";
@@ -54,7 +55,7 @@ public class ClientTesterDMExporter extends OIMHelperClient {
         }
         catch(Exception e)
         {
-            logger.error("APIError",e);
+            logger.log(Level.SEVERE,"APIError",e);
             return;
         }
         
@@ -67,7 +68,7 @@ public class ClientTesterDMExporter extends OIMHelperClient {
         }
         catch(Exception e)
         {
-            logger.error("APIError:" + e.getMessage());
+            logger.log(Level.SEVERE,"APIError:" + e.getMessage());
         }
         
         
@@ -109,7 +110,7 @@ public class ClientTesterDMExporter extends OIMHelperClient {
         }
         catch(Exception e)
         {
-            logger.error("APIError:" + e.getMessage(),e);
+            logger.log(Level.SEVERE,"APIError:" + e.getMessage(),e);
             return;
         }
     }
@@ -131,7 +132,7 @@ public class ClientTesterDMExporter extends OIMHelperClient {
                 while(i.hasNext())
                 {
                     RootObject r = (RootObject)i.next();
-                    logger.debug("R:" + r.getName() + ":" + r.getPhysicalType());
+                    logger.fine("R:" + r.getName() + ":" + r.getPhysicalType());
                     String type = r.getPhysicalType();
                     if (!processTypes.contains(type))
                         i.remove();
@@ -141,7 +142,7 @@ public class ClientTesterDMExporter extends OIMHelperClient {
             }
         } catch (Exception e) 
         {
-            logger.error("APIError:" + e.getMessage());
+            logger.log(Level.SEVERE,"APIError:" + e.getMessage());
             return;
         }
     }
@@ -158,19 +159,19 @@ public class ClientTesterDMExporter extends OIMHelperClient {
            
             for (String name : names) 
             {
-                logger.debug("Jobname:" + name);
+                logger.fine("Jobname:" + name);
                 boolean hasTask = false;
                 Collection<RootObject> all = new ArrayList();
                 Collection<RootObject> roots = deployOps.getFullObjectTree(name,"scheduledTask");
                 for(RootObject r : roots)
                 {
-                    logger.debug("ROOT:" + r.getName() + ":" + r.getPhysicalType());
+                    logger.fine("ROOT:" + r.getName() + ":" + r.getPhysicalType());
                     if (!all.contains(r))
                     {
                         all.add(r);
                         if (r.getChilds() != null && r.getChilds().size() > 0)
                         {
-                            logger.debug("has children:" + r.getChilds());
+                            logger.fine("has children:" + r.getChilds());
                             all.addAll(r.getChilds());
 
                         }
@@ -194,7 +195,7 @@ public class ClientTesterDMExporter extends OIMHelperClient {
                 }
                 for (RootObject r : all) 
                 {
-                    logger.debug("R:" + r.getName() + ":" + r.getPhysicalType());
+                    logger.fine("R:" + r.getName() + ":" + r.getPhysicalType());
                     if (r.getPhysicalType().equals("Job"))
                         hasTask = true;
                 }
@@ -204,12 +205,12 @@ public class ClientTesterDMExporter extends OIMHelperClient {
                     //deployOps.exportObjects(all, name);
                 }
                 else
-                    logger.error("Skipping missing task for job:" + name);
+                    logger.log(Level.SEVERE,"Skipping missing task for job:" + name);
                 */
             }
         } catch (Exception e) 
         {
-            logger.error("APIError:" + e.getMessage());
+            logger.log(Level.SEVERE,"APIError:" + e.getMessage());
             return;
         }
     }
@@ -230,7 +231,7 @@ public class ClientTesterDMExporter extends OIMHelperClient {
         }
         catch(Exception e)
         {
-            logger.error("APIError:" + e.getMessage());
+            logger.log(Level.SEVERE,"APIError:" + e.getMessage());
             return;
         }
     }
@@ -250,7 +251,7 @@ public class ClientTesterDMExporter extends OIMHelperClient {
         }
         catch(Exception e)
         {
-            logger.error("APIError:" + e.getMessage());
+            logger.log(Level.SEVERE,"APIError:" + e.getMessage());
             return;
         }
     }
@@ -269,23 +270,23 @@ public class ClientTesterDMExporter extends OIMHelperClient {
             Collection<RootObject> roots = deployOps.getRootObject("Process Form", name);
             for(RootObject r : roots)
             {
-                logger.debug("ROOT:" + r);
+                logger.fine("ROOT:" + r);
             }
             Collection<RootObject> children = deployOps.getObjectChildren(roots);
             
             boolean skip = false;
             for(RootObject r : children)
             {
-                logger.debug("CHILD:" + r);
+                logger.fine("CHILD:" + r);
                 if (r.getChilds().size() > 0)
-                    logger.debug("Has Children:" + r.getName());
+                    logger.fine("Has Children:" + r.getName());
                 else
                     skip = true;
             }
             
             if (skip)
             {
-                logger.debug("Skipping:" + name);
+                logger.fine("Skipping:" + name);
                 continue;
             }
             
@@ -295,7 +296,7 @@ public class ClientTesterDMExporter extends OIMHelperClient {
             Collection<RootObject> deps = deployOps.getObjectDependencies(children);
             for(RootObject r : deps)
             {
-                logger.debug("DEP:" + r);
+                logger.fine("DEP:" + r);
                 if (!allObjects.contains(r))
                     allObjects.add(r);
             }
@@ -304,17 +305,17 @@ public class ClientTesterDMExporter extends OIMHelperClient {
             while(i.hasNext())
             {
                 RootObject r = (RootObject)i.next();
-                //logger.debug("TREE:" + r.getName() + ":" + r.getPhysicalType());
+                //logger.fine("TREE:" + r.getName() + ":" + r.getPhysicalType());
                 if (!r.getPhysicalType().contains("Form"))
                     i.remove();
             }
             tree.addAll(roots);
             for(RootObject r : tree)
             {
-                logger.debug("TREE:" + r.getName() + ":" + r.getPhysicalType());
+                logger.fine("TREE:" + r.getName() + ":" + r.getPhysicalType());
                 namesCopy.remove(r.getName());
             }
-            logger.debug("Writing:" + name);
+            logger.fine("Writing:" + name);
             deployOps.exportObjects(tree, name);
         }
         return namesCopy;
@@ -337,34 +338,34 @@ public class ClientTesterDMExporter extends OIMHelperClient {
                 
                 for(RootObject ro : roots)
                 {
-                    logger.debug("Root:" + ro);
+                    logger.fine("Root:" + ro);
                     Collection<RootObject> children = deployOps.getObjectChildren(ro);
                     children = deployOps.removeRoot(children);
-                    logger.debug("Children:" + children);
+                    logger.fine("Children:" + children);
                     if (children.isEmpty())
                     {
                         continue;
                     }
                     for(RootObject child : children)
                     {
-                        logger.debug("Removing:" + child.getName());
+                        logger.fine("Removing:" + child.getName());
                         namesCopy.remove(child.getName());
                     }
                     children = deployOps.getObjectChildren(ro);
                     deployOps.exportObjects(children, name);
                     for(RootObject child : children)
                     {
-                        logger.debug("Removing:" + child.getName());
+                        logger.fine("Removing:" + child.getName());
                         namesCopy.remove(child.getName());
                     }
                     //Collection<RootObject> deps = deployOps.getObjectDeps(ro);
                     //deps = deployOps.removeRoot(deps);
-                    //logger.debug("Deps:" + deps);
+                    //logger.fine("Deps:" + deps);
                 }
             }
             catch(Exception e)
             {
-                logger.error("APIError:" + e.getMessage(),e);
+                logger.log(Level.SEVERE,"APIError:" + e.getMessage(),e);
                 throw e;
             }
         }
@@ -378,7 +379,7 @@ public class ClientTesterDMExporter extends OIMHelperClient {
         try
         {
             Collection<String> cats = exportOps.retrieveCategories();
-            logger.debug("cats:" + cats);
+            logger.fine("cats:" + cats);
             for(String ro : cats)
             {
                 System.out.println("Cat:" + ro);
@@ -386,7 +387,7 @@ public class ClientTesterDMExporter extends OIMHelperClient {
         }
         catch(Exception e)
         {
-            logger.error("APIError:" + e.getMessage(),e);
+            logger.log(Level.SEVERE,"APIError:" + e.getMessage(),e);
             throw e;
         }
     }
@@ -401,7 +402,7 @@ public class ClientTesterDMExporter extends OIMHelperClient {
             exportOps = this.getClient().getService(tcExportOperationsIntf.class);
             deployOps.setBaseDirectory(this.baseDir);
         } catch (OIMHelperException e) {
-            logger.error("Error", e);
+            logger.log(Level.SEVERE,"Error", e);
             throw e;
         }
     }

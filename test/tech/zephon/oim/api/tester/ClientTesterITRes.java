@@ -11,8 +11,9 @@ import tech.zephon.oim.api.OIMHelperClient;
 import tech.zephon.oim.api.OIMITResources;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import tech.zephon.oim.api.OIMProperties;
-import com.thortech.util.logging.Logger;
 import org.junit.Test;
 
 /**
@@ -20,7 +21,7 @@ import org.junit.Test;
  */
 public class ClientTesterITRes extends OIMHelperClient {
 
-    private CustomTestLogger logger = CustomTestLogger.getLogger(this.getClass().getName());
+    private static final Logger logger = Logger.getLogger(ClientTesterDMExporter.class.getName());
     
 
     private static OIMITResources itres;
@@ -40,11 +41,11 @@ public class ClientTesterITRes extends OIMHelperClient {
         } 
         catch (OIMHelperException e)
         {
-            logger.error("Error", e);
+            logger.log(Level.SEVERE,"Error", e);
         }
         catch (Exception e)
         {
-            logger.error("Error", e);
+            logger.log(Level.SEVERE,"Error", e);
         }
     }
     
@@ -54,11 +55,11 @@ public class ClientTesterITRes extends OIMHelperClient {
         {
             oimProps = new OIMProperties(getClient());
             Map properties = oimProps.getITResourceProperties(resName);
-            logger.debug("Properties:" + properties);
+            logger.fine("Properties:" + properties);
         }
         catch(Exception e)
         {
-            logger.error("Error", e);
+            logger.log(Level.SEVERE,"Error", e);
         }
     }
 
@@ -80,7 +81,7 @@ public class ClientTesterITRes extends OIMHelperClient {
             
             for(String field : fields)
             {
-                logger.debug("Defition Field " + field);
+                logger.fine("Defition Field " + field);
                 newDefMap.put(field, "DataVal" + field);
             }
             itres.createITResource("New Database Def Tester", resDefKey, newDefMap);
@@ -89,8 +90,8 @@ public class ClientTesterITRes extends OIMHelperClient {
 
             String dbName = oimProps.getCriticalAttribute(properties,"DatabaseName");
 
-            logger.debug("ITRes Properties " + properties);
-            logger.debug("ITRes dbName " + dbName);
+            logger.fine("ITRes Properties " + properties);
+            logger.fine("ITRes dbName " + dbName);
 
             try
             {
@@ -98,7 +99,7 @@ public class ClientTesterITRes extends OIMHelperClient {
             }
             catch(OIMHelperException e)
             {
-                logger.error("Error Getting Field " + e.getMessage());
+                logger.log(Level.SEVERE,"Error Getting Field " + e.getMessage());
             }
 
             long itreskey = itres.getItResource("New Database Def Tester");
@@ -108,9 +109,9 @@ public class ClientTesterITRes extends OIMHelperClient {
             itreskey = itres.getItResource("New Database Def Tester");
 
             if (itreskey == 0l)
-                logger.debug("Resource Deleted");
+                logger.fine("Resource Deleted");
             else
-                logger.error("DELETE FAILED!!!!");
+                logger.log(Level.SEVERE,"DELETE FAILED!!!!");
 
             try
             {
@@ -118,13 +119,13 @@ public class ClientTesterITRes extends OIMHelperClient {
             }
             catch(OIMHelperException e)
             {
-                logger.error("Error Getting ITResource " + e.getMessage());
+                logger.log(Level.SEVERE,"Error Getting ITResource " + e.getMessage());
             }
 
         }
         catch(OIMHelperException e)
         {
-            logger.error("Error", e);
+            logger.log(Level.SEVERE,"Error", e);
         }
 
     }

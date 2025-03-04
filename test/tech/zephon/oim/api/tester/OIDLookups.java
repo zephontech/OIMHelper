@@ -5,11 +5,12 @@
 package tech.zephon.oim.api.tester;
 
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.junit.Test;
 import tech.zephon.oim.api.OIMHelperClient;
 import tech.zephon.oim.api.OIMlookupUtilities;
 import tech.zephon.oim.exceptions.OIMHelperException;
-import com.thortech.util.logging.Logger;
 
 /**
  *
@@ -17,7 +18,7 @@ import com.thortech.util.logging.Logger;
  */
 public class OIDLookups extends OIMHelperClient {
     
-    private CustomTestLogger logger = CustomTestLogger.getLogger(this.getClass().getName());
+    private static final Logger logger = Logger.getLogger(ClientTesterDMExporter.class.getName());
     
     private String[] lookups = {"Lookup.LDAP.Configuration",
                                 "Lookup.LDAP.Configuration.Trusted",
@@ -36,7 +37,7 @@ public class OIDLookups extends OIMHelperClient {
         }
         catch(OIMHelperException e)
         {
-            logger.error("Failed to connect");
+            logger.log(Level.SEVERE,"Failed to connect");
             return;
         }
 
@@ -52,15 +53,15 @@ public class OIDLookups extends OIMHelperClient {
             myLookup = new OIMlookupUtilities(getClient());
             for(int i=0;i<lookups.length;i++)
             {
-                logger.debug("Name:" + lookups[i]);
+                logger.fine("Name:" + lookups[i]);
                 Map<String,String> valMap = myLookup.getLookupValues(lookups[i]);
-                logger.debug("ValuMap " + valMap);
+                logger.fine("ValuMap " + valMap);
             }
 
         }
         catch(OIMHelperException e)
         {
-            logger.error("Lookup Error ",e);
+            logger.log(Level.SEVERE,"Lookup Error ",e);
         }
     }
     
@@ -75,7 +76,7 @@ public class OIDLookups extends OIMHelperClient {
         }
         catch(OIMHelperException e)
         {
-            logger.error("Lookup Error ",e);
+            logger.log(Level.SEVERE,"Lookup Error ",e);
         }
     }
     

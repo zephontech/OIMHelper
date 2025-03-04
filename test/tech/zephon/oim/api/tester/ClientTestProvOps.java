@@ -15,6 +15,8 @@ import tech.zephon.oim.model.OpenTask;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import oracle.iam.platform.entitymgr.vo.SearchCriteria;
 import oracle.iam.provisioning.api.ProvisioningConstants;
 import oracle.iam.provisioning.api.ProvisioningService;
@@ -27,7 +29,7 @@ import org.junit.Test;
  */
 public class ClientTestProvOps extends OIMHelperClient {
     
-    private CustomTestLogger logger = CustomTestLogger.getLogger(this.getClass().getName());
+    private static final Logger logger = Logger.getLogger(ClientTesterProps.class.getName());
      private tcProvisioningOperationsIntf provOps;
      private OIMProcessTaskOperations taskOps;
      private OIMProvisioningOperations oimProvOps;
@@ -52,7 +54,7 @@ public class ClientTestProvOps extends OIMHelperClient {
         }
         catch(Exception e)
         {
-            logger.error("Failed to connect",e);
+            logger.log(Level.SEVERE,"Failed to connect",e);
             return;
         }
     }
@@ -66,7 +68,7 @@ public class ClientTestProvOps extends OIMHelperClient {
         }
         catch(Exception e)
         {
-            logger.error("APIError",e);
+            logger.log(Level.SEVERE,"APIError",e);
         }
     }
     
@@ -79,7 +81,7 @@ public class ClientTestProvOps extends OIMHelperClient {
         }
         catch(Exception e)
         {
-            logger.error("APIError",e);
+            logger.log(Level.SEVERE,"APIError",e);
         }
     }
     
@@ -88,16 +90,16 @@ public class ClientTestProvOps extends OIMHelperClient {
         try
         {
             List<OpenTask> tasks = taskOps.getAllOpenTasks(null);
-            logger.debug("Tasks:" + tasks.size());
+            logger.fine("Tasks:" + tasks.size());
             for(OpenTask ot : tasks)
             {
-                logger.debug("Opentask:" + ot);
+                logger.fine("Opentask:" + ot);
             }
             
         }
         catch(Exception e)
         {
-            logger.error("APIError",e);
+            logger.log(Level.SEVERE,"APIError",e);
         }
     }
     
@@ -110,13 +112,13 @@ public class ClientTestProvOps extends OIMHelperClient {
             tasks = taskOps.getAllOpenTasks(null);
             for(OpenTask ot : tasks)
             {
-                logger.debug("Opentask:" + ot);
+                logger.fine("Opentask:" + ot);
             }
             
         }
         catch(Exception e)
         {
-            logger.error("APIError",e);
+            logger.log(Level.SEVERE,"APIError",e);
         }
     }
     
@@ -129,13 +131,13 @@ public class ClientTestProvOps extends OIMHelperClient {
             tasks = taskOps.getAllOpenTasks(null);
             for(OpenTask ot : tasks)
             {
-                logger.debug("Opentask:" + ot);
+                logger.fine("Opentask:" + ot);
             }
             
         }
         catch(Exception e)
         {
-            logger.error("APIError",e);
+            logger.log(Level.SEVERE,"APIError",e);
         }
     }
     
@@ -144,7 +146,7 @@ public class ClientTestProvOps extends OIMHelperClient {
         try
         {
             List<OpenTask> tasks = taskOps.getAllOpenTasks(name);
-            logger.debug("Tasks:" + tasks.size());
+            logger.fine("Tasks:" + tasks.size());
             long[] close = new long[tasks.size()];
             int c = 0;
             for(OpenTask t : tasks)
@@ -152,7 +154,7 @@ public class ClientTestProvOps extends OIMHelperClient {
                 close[c] = t.getTaskKey();
                 c++;
             }
-            logger.debug("NumClose:" + close.length);
+            logger.fine("NumClose:" + close.length);
             if (close.length > 0)
                 provOps.setTasksCompletedManually(close);
            
@@ -160,7 +162,7 @@ public class ClientTestProvOps extends OIMHelperClient {
         }
         catch(Exception e)
         {
-            logger.error("APIError",e);
+            logger.log(Level.SEVERE,"APIError",e);
         }
     }
     
@@ -169,11 +171,11 @@ public class ClientTestProvOps extends OIMHelperClient {
             
             String key = userOps.getUserKey(user);
             // get all enabled accounts
-            logger.debug("get all enabled accounts");
+            logger.fine("get all enabled accounts");
             List<Account> accounts = oimProvOps.getAccountsProvisionedToUser(key, resourceName);
 
             for (Account a : accounts) {
-                logger.debug("Acnt:"
+                logger.fine("Acnt:"
                         + a.getAppInstance().getObjectName() + ":"
                         + a.getAccountStatus() + ":"
                         + a.getAccountType() + ":"
@@ -182,10 +184,10 @@ public class ClientTestProvOps extends OIMHelperClient {
                         + a.getAccountDescriptiveField() + ":");
             }
             // get all accounts for this resource regardless of status
-            logger.debug("get all accounts for this resource regardless of status");
+            logger.fine("get all accounts for this resource regardless of status");
             accounts = oimProvOps.getUserAccountsByResource(key, resourceName,true);
             for (Account a : accounts) {
-                logger.debug("Acnt:"
+                logger.fine("Acnt:"
                         + a.getAppInstance().getObjectName() + ":"
                         + a.getAccountStatus() + ":"
                         + a.getAccountType() + ":"
@@ -198,10 +200,10 @@ public class ClientTestProvOps extends OIMHelperClient {
             statList.add("Disabled");
             statList.add("Enabled");
             // get all accounts for this resource regardless of status
-            logger.debug("get all accounts for this resource by status");
+            logger.fine("get all accounts for this resource by status");
             accounts = oimProvOps.getUserAccountsByResourceStatus(key, resourceName,statList,true);
             for (Account a : accounts) {
-                logger.debug("Acnt:"
+                logger.fine("Acnt:"
                         + a.getAppInstance().getObjectName() + ":"
                         + a.getAccountStatus() + ":"
                         + a.getAccountType() + ":"
@@ -211,10 +213,10 @@ public class ClientTestProvOps extends OIMHelperClient {
                         + a.getAccountDescriptiveField() + ":");
             }
             // get the primary account for this resource
-            logger.debug("get the primary account for this resource");
+            logger.fine("get the primary account for this resource");
             Account a = oimProvOps.getPrimaryAccountProvisionedToUser(key, resourceName);
             if (a != null) {
-                logger.debug("Primary:"
+                logger.fine("Primary:"
                         + a.getAppInstance().getObjectName() + ":"
                         + a.getAccountStatus() + ":"
                         + a.getAccountType() + ":"
@@ -223,10 +225,10 @@ public class ClientTestProvOps extends OIMHelperClient {
                         + a.getAccountDescriptiveField() + ":");
             }
             this.getAccountsProvisionedToUser(key, resourceName);
-            logger.debug("get the primary disabled account for this resource");
+            logger.fine("get the primary disabled account for this resource");
             accounts = oimProvOps.getDisabledPrimaryAccount(key, resourceName);
             for (Account b : accounts) {
-                logger.debug("Acnt:"
+                logger.fine("Acnt:"
                         + b.getAppInstance().getObjectName() + ":"
                         + b.getAccountStatus() + ":"
                         + b.getAccountType() + ":"
@@ -261,11 +263,11 @@ public class ClientTestProvOps extends OIMHelperClient {
         {
             //List<Account> newList = new ArrayList<Account>();
             List<Account> accounts = provServOps.getAccountsProvisionedToUser(key,and,config,true);
-            logger.debug("Count:" + accounts.size());
+            logger.fine("Count:" + accounts.size());
             /*
             for(Account a : accounts)
             {
-                logger.debug("Status:" + a.getAccountStatus());
+                logger.fine("Status:" + a.getAccountStatus());
                 String stat = a.getAccountStatus();
                 if (stat.equalsIgnoreCase("enabled") || stat.equalsIgnoreCase("provisioned"))
                     newList.add(a);
@@ -275,7 +277,7 @@ public class ClientTestProvOps extends OIMHelperClient {
         }
         catch(Exception e)
         {
-            logger.error("APIError",e);
+            logger.log(Level.SEVERE,"APIError",e);
             throw new OIMHelperException(e);
         }
         
@@ -296,14 +298,14 @@ public class ClientTestProvOps extends OIMHelperClient {
                 rs.goToRow(i);
                 for(String name : headers)
                 {
-                    logger.debug(name + ":" + rs.getStringValue(name));
+                    logger.fine(name + ":" + rs.getStringValue(name));
                 }
                 
             }
         }
         catch(Exception e)
         {
-            logger.error("APIError",e);
+            logger.log(Level.SEVERE,"APIError",e);
         }
     }
     

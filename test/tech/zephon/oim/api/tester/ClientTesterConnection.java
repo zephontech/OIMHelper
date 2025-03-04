@@ -5,6 +5,8 @@
 
 package tech.zephon.oim.api.tester;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import tech.zephon.oim.exceptions.OIMHelperException;
 import tech.zephon.oim.api.OIMHelperClient;
 import oracle.iam.reconciliation.api.ReconOperationsService;
@@ -17,7 +19,7 @@ public class ClientTesterConnection extends OIMHelperClient {
     
    
     private static ReconOperationsService reconOp;
-    private CustomTestLogger logger = CustomTestLogger.getLogger(ClientTesterConnection.class.getName());
+    private static final Logger logger = Logger.getLogger(ClientTesterConnection.class.getName());
     
     @Test
     public void mainTest() {
@@ -28,7 +30,7 @@ public class ClientTesterConnection extends OIMHelperClient {
             loadConfig(null);
             loginWithCustomEnv();
         } catch (OIMHelperException e) {
-            logger.error("Error", e);
+            logger.log(Level.SEVERE,"Error", e);
             return;
         }
         
@@ -37,13 +39,13 @@ public class ClientTesterConnection extends OIMHelperClient {
 
         if (reconOp == null)
         {
-            logger.error("failed to get Recon class");
+            logger.log(Level.SEVERE,"failed to get Recon class");
             return;
         }
 
         logger.info("Connection Success");
 
-        logger.debug("Show Class Loaders");
+        logger.fine("Show Class Loaders");
 
         ClassLoader current = new ClientTesterConnection().getClass().getClassLoader();
 

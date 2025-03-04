@@ -19,8 +19,9 @@ import java.util.Map;
 import java.util.UUID;
 import oracle.iam.reconciliation.api.ReconOperationsService;
 import tech.zephon.oim.csv.CsvReader;
-import com.thortech.util.logging.Logger;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.junit.Test;
 
 /**
@@ -28,7 +29,7 @@ import org.junit.Test;
  */
 public class ClientTesterRecon extends OIMHelperClient {
 
-    private CustomTestLogger logger = CustomTestLogger.getLogger(this.getClass().getName());
+    private static final Logger logger = Logger.getLogger(ClientTesterDMExporter.class.getName());
 
     private String defaultConfigFile = "jndi.properties";
 
@@ -56,7 +57,7 @@ public class ClientTesterRecon extends OIMHelperClient {
             
             //loadFile(reconFileName);
             //makeMoreUsers(100);
-            //logger.debug(recordMapList);
+            //logger.fine(recordMapList);
             //runRecon();
             recordMapList = new ArrayList<HashMap>();
             HashMap map = new HashMap();
@@ -76,7 +77,7 @@ public class ClientTesterRecon extends OIMHelperClient {
         }
         catch(Exception e)
         {
-            logger.error("Init failed " + e.getMessage(),e);
+            logger.log(Level.SEVERE,"Init failed " + e.getMessage(),e);
             return;
         }
     }
@@ -90,7 +91,7 @@ public class ClientTesterRecon extends OIMHelperClient {
             reconOp = getClient().getService(ReconOperationsService.class);
             oimForms = new OIMForms(getClient());
         } catch (OIMHelperException e) {
-            logger.error("Error", e);
+            logger.log(Level.SEVERE,"Error", e);
             throw e;
         }
     }
@@ -109,7 +110,7 @@ public class ClientTesterRecon extends OIMHelperClient {
 
             if (fileHeaders == null || fileHeaders.length == 0)
             {
-                logger.error("No Header Record");
+                logger.log(Level.SEVERE,"No Header Record");
                 throw new Exception("No Header Record");
             }
 
@@ -127,19 +128,19 @@ public class ClientTesterRecon extends OIMHelperClient {
                 String guid = key.toString().toUpperCase();
                 guid = guid.replaceAll("-", "");
                 //recordMap.put(IDFIELD, guid);
-                logger.debug("Record Created " + recordMap);
+                logger.fine("Record Created " + recordMap);
                 recordMapList.add(recordMap);
 
             }
         }
         catch(FileNotFoundException fnfe)
         {
-            logger.error("File Not Found");
+            logger.log(Level.SEVERE,"File Not Found");
             throw new Exception("File Not Found");
         }
         catch(IOException ioe)
         {
-            logger.error("File IO Error " + ioe.getMessage());
+            logger.log(Level.SEVERE,"File IO Error " + ioe.getMessage());
             throw new Exception("File IO Error " + ioe.getMessage());
         }
         finally
@@ -170,20 +171,20 @@ public class ClientTesterRecon extends OIMHelperClient {
        
         for(Map recordMap : recordMapList)
         {
-            logger.debug("Record:" + recordMap);
+            logger.fine("Record:" + recordMap);
             try {
                 eventKey = reconOp.createReconciliationEvent(targetResource, recordMap, true);
                 //reconOp.finishReconciliationEvent(eventKey);
                 reconOp.processReconciliationEvent(eventKey);
-                logger.debug("Recon Complete " + eventKey);
+                logger.fine("Recon Complete " + eventKey);
             }
             //catch (tcEventNotFoundException ex) {
-            //    logger.error("Recon Exception tcEventNotFoundException", ex);
+            //    logger.log(Level.SEVERE,"Recon Exception tcEventNotFoundException", ex);
             //} catch (tcEventDataReceivedException ex) {
-            //    logger.error("Recon Exception tcEventDataReceivedException", ex);
+            //    logger.log(Level.SEVERE,"Recon Exception tcEventDataReceivedException", ex);
             //}
             catch (tcAPIException ex) {
-                logger.error("Recon Exception tcAPIException", ex);
+                logger.log(Level.SEVERE,"Recon Exception tcAPIException", ex);
             }
         }
     }
@@ -195,21 +196,21 @@ public class ClientTesterRecon extends OIMHelperClient {
         
         for(Map recordMap : recordMapList)
         {
-            logger.debug("Record:" + recordMap);
+            logger.fine("Record:" + recordMap);
             try {
                 eventKey = reconOp.createDeleteReconciliationEvent(targetResource, recordMap);
                 //eventKey = reconOp.createReconciliationEvent(targetResource, recordMap, true);
                 //reconOp.finishReconciliationEvent(eventKey);
                 reconOp.processReconciliationEvent(eventKey);
-                logger.debug("Recon Complete " + eventKey);
+                logger.fine("Recon Complete " + eventKey);
             }
             //catch (tcEventNotFoundException ex) {
-            //    logger.error("Recon Exception tcEventNotFoundException", ex);
+            //    logger.log(Level.SEVERE,"Recon Exception tcEventNotFoundException", ex);
             //} catch (tcEventDataReceivedException ex) {
-            //    logger.error("Recon Exception tcEventDataReceivedException", ex);
+            //    logger.log(Level.SEVERE,"Recon Exception tcEventDataReceivedException", ex);
             //}
             catch (Exception ex) {
-                logger.error("Recon Exception tcAPIException", ex);
+                logger.log(Level.SEVERE,"Recon Exception tcAPIException", ex);
             }
         }
     }
@@ -218,7 +219,7 @@ public class ClientTesterRecon extends OIMHelperClient {
     {
         HashMap[] maps = new HashMap[records.size()];
         records.toArray(maps);
-        logger.debug("Recon Start:" + records);
+        logger.fine("Recon Start:" + records);
         
         try {
             // returns orc keys of matching accounts
@@ -226,7 +227,7 @@ public class ClientTesterRecon extends OIMHelperClient {
             for(Object o : items)
             {
                 Map matched = oimForms.getProcessFormValues(Long.parseLong(o.toString()));
-                logger.debug("Matched:" + matched);
+                logger.fine("Matched:" + matched);
             }
             
             tcResultSet missing = reconOp.getMissingAccounts(resName, items);
@@ -236,20 +237,20 @@ public class ClientTesterRecon extends OIMHelperClient {
                 missing.goToRow(i);
                 long pik = missing.getLongValue("Process Instance.Key");
                 Map rec = oimForms.getProcessFormValues(pik);
-                logger.debug("Deleting:" + rec);
+                logger.fine("Deleting:" + rec);
                 
             }
-            logger.debug("Recon Complete ");
+            logger.fine("Recon Complete ");
         } catch (Exception ex) {
-            logger.error("Recon Exception tcAPIException", ex);
+            logger.log(Level.SEVERE,"Recon Exception tcAPIException", ex);
         }
     }
     public void processEvent(long eventKey) {
         try {
             reconOp.processReconciliationEvent(eventKey);
-            logger.debug("Recon Complete " + eventKey);
+            logger.fine("Recon Complete " + eventKey);
         } catch (Exception ex) {
-            logger.error("Recon Exception tcAPIException", ex);
+            logger.log(Level.SEVERE,"Recon Exception tcAPIException", ex);
         }
     }
     
@@ -268,14 +269,14 @@ public class ClientTesterRecon extends OIMHelperClient {
                 rs.goToRow(i);
                 for(String name : headers)
                 {
-                    logger.debug(name + ":" + rs.getStringValue(name));
+                    logger.fine(name + ":" + rs.getStringValue(name));
                 }
                 
             }
         }
         catch(Exception e)
         {
-            logger.error("APIError",e);
+            logger.log(Level.SEVERE,"APIError",e);
         }
     }
 

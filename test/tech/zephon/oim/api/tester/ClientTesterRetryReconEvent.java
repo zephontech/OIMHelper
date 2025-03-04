@@ -6,9 +6,10 @@
 package tech.zephon.oim.api.tester;
 
 import Thor.API.Exceptions.tcAPIException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import tech.zephon.oim.exceptions.OIMHelperException;
 import tech.zephon.oim.api.OIMHelperClient;
-import com.thortech.util.logging.Logger;
 import oracle.iam.reconciliation.api.ReconOperationsService;
 import org.junit.Test;
 
@@ -17,7 +18,7 @@ import org.junit.Test;
  */
 public class ClientTesterRetryReconEvent extends OIMHelperClient {
 
-    private CustomTestLogger logger = CustomTestLogger.getLogger(this.getClass().getName());
+    private static final Logger logger = Logger.getLogger(ClientTesterDMExporter.class.getName());
     private String defaultConfigFile = "jndi.properties";
     
     private String[] args = {"evtid1","evtid2"};
@@ -33,7 +34,7 @@ public class ClientTesterRetryReconEvent extends OIMHelperClient {
         }
         catch(Exception e)
         {
-            logger.error("Init failed",e);
+            logger.log(Level.SEVERE,"Init failed",e);
             return;
         }
     }
@@ -45,7 +46,7 @@ public class ClientTesterRetryReconEvent extends OIMHelperClient {
             loadConfig(defaultConfigFile);
             loginWithCustomEnv();
         } catch (OIMHelperException e) {
-            logger.error("Error", e);
+            logger.log(Level.SEVERE,"Error", e);
             throw e;
         }
     }
@@ -60,7 +61,7 @@ public class ClientTesterRetryReconEvent extends OIMHelperClient {
         reconOp = getClient().getService(ReconOperationsService.class);
         if (reconOp == null)
         {
-            logger.error("Failed to get Recon OP");
+            logger.log(Level.SEVERE,"Failed to get Recon OP");
             return;
         }
 
@@ -73,7 +74,7 @@ public class ClientTesterRetryReconEvent extends OIMHelperClient {
             }
             catch(tcAPIException e)
             {
-                logger.error("Retry Error for " + event,e);
+                logger.log(Level.SEVERE,"Retry Error for " + event,e);
             }
         }
     }

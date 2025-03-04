@@ -8,6 +8,8 @@ package tech.zephon.oim.api.tester;
 import tech.zephon.oim.api.OIMHelperClient;
 import java.util.List;
 import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import oracle.iam.passwordmgmt.api.PasswordMgmtService;
 import oracle.iam.passwordmgmt.vo.PasswordPolicyDescription;
 import oracle.iam.passwordmgmt.vo.ValidationResult;
@@ -21,7 +23,7 @@ import org.junit.Test;
 public class ClientTestPasswordMgt extends OIMHelperClient {
     
     
-    private CustomTestLogger logger = CustomTestLogger.getLogger(ClientTestPasswordMgt.class);
+    private static final Logger logger = Logger.getLogger(ClientTestPasswordMgt.class.getName());
     private PasswordMgmtService passwordOp;
     
     private String password = "1 dmapte$t#";
@@ -34,7 +36,7 @@ public class ClientTestPasswordMgt extends OIMHelperClient {
         /*
         if (this.hasSpaces(password))
         {
-            logger.debug("Spaces!");
+            logger.fine("Spaces!");
             return;
         }
         */
@@ -44,7 +46,7 @@ public class ClientTestPasswordMgt extends OIMHelperClient {
             loadConfig(null);
             loginWithCustomEnv();
         } catch (Exception e) {
-            logger.error("Error", e);
+            logger.log(Level.SEVERE,"Error", e);
             return;
         }
         
@@ -54,11 +56,11 @@ public class ClientTestPasswordMgt extends OIMHelperClient {
         List<PasswordRuleDescription> rules = desc.getPasswordRulesDescription();
         for(PasswordRuleDescription r : rules)
         {
-            //logger.debug("Rule:" + r.getDisplayValue());
+            //logger.fine("Rule:" + r.getDisplayValue());
         }
         ValidationResult results = passwordOp.validatePasswordAgainstPolicy(password.toCharArray(), userName, Locale.US);
         if (results.isPasswordValid()) {
-            logger.debug("Valid Password");
+            logger.fine("Valid Password");
         } else {
             StringBuffer failedRules = new StringBuffer();
             List<PasswordRuleDescription> rulesViolated =
@@ -68,7 +70,7 @@ public class ClientTestPasswordMgt extends OIMHelperClient {
                 failedRules.append(rule.getDisplayValue()).append("|");
             }
 
-            logger.debug("Failed:" + failedRules.toString());
+            logger.fine("Failed:" + failedRules.toString());
         }
     }
     
