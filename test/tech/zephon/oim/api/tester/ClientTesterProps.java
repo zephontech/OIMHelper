@@ -42,11 +42,11 @@ public class ClientTesterProps extends OIMHelperClient {
             Map lku = oimProperties.getLookupProperties("Lookup.USR_PROCESS_TRIGGERS");
             logger.fine("Lku:" + lku);
             //showAll();
-            showSpecificITResource("APP2USER");
+            oimProperties.getITResourceProperties("APP2USER");
             //doJobProps();
-            getTaskProperties("TestOIMHelper");
-            setTaskProperties("TestOIMHelper","Test Value One","Newer Value One");
-            getTaskProperties("TestOIMHelper");
+            oimProperties.getTaskProperties("TestOIMHelper");
+            setTaskProperties("TestOIMHelper","Test Value One","Better Value One");
+            oimProperties.getTaskProperties("TestOIMHelper");
         } catch (OIMHelperException e) {
             logger.log(Level.SEVERE,"Error", e);
         }
